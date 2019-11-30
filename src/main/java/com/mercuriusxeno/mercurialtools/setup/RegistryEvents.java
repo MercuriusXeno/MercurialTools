@@ -1,8 +1,8 @@
 package com.mercuriusxeno.mercurialtools.setup;
 
 
-import com.mercuriusxeno.mercurialtools.blocks.ModBlocks;
-import com.mercuriusxeno.mercurialtools.blocks.SpawnerTemplate;
+import com.mercuriusxeno.mercurialtools.block.ModBlocks;
+import com.mercuriusxeno.mercurialtools.block.SpawnerTemplate;
 import com.mercuriusxeno.mercurialtools.reference.Names;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;

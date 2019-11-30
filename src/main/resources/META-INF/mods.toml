@@ -34,7 +34,7 @@ and reducing the occurence of lag-causing operations. Also adds some
 resource exchange mechanics, a small, hopefully balanced nod to my EE days.
 '''
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
-[[dependencies.mercurialTools]] #optional
+[[dependencies.mercurialtools]] #optional
     # the modid of the dependency
     modId="forge" #mandatory
     # Does this dependency have to exist - if not, ordering below must be specified
@@ -46,7 +46,7 @@ resource exchange mechanics, a small, hopefully balanced nod to my EE days.
     # Side this dependency is applied on - BOTH, CLIENT or SERVER
     side="BOTH"
 # Here's another dependency
-[[dependencies.mercurialTools]]
+[[dependencies.mercurialtools]]
     modId="minecraft"
     mandatory=true
     versionRange="[1.14.4]"

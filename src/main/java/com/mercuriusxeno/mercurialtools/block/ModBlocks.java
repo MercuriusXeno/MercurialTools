@@ -1,4 +1,4 @@
-package com.mercuriusxeno.mercurialtools.blocks;
+package com.mercuriusxeno.mercurialtools.block;
 
 import net.minecraftforge.registries.ObjectHolder;
 
