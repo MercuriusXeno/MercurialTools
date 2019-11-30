@@ -1,5 +1,5 @@
 {
   "variants": {
-    "": { "model": "mercurialtools:block/spawnertemplate" }
+    "": { "model": "mercurialtools:block/spawner_template" }
   }
 }
