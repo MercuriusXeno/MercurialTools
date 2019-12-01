@@ -3,6 +3,7 @@ package com.mercuriusxeno.mercurialtools.block;
 import com.mercuriusxeno.mercurialtools.reference.Names;
 import net.minecraft.block.Block;
 import net.minecraft.block.ContainerBlock;
+import net.minecraft.block.HopperBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
@@ -10,7 +11,7 @@ import net.minecraft.world.IBlockReader;
 
 import javax.annotation.Nullable;
 
-public class ExpandingHopper extends ContainerBlock {
+public class ExpandingHopper extends HopperBlock {
     public ExpandingHopper() {
         super(Block.Properties
                 .create(Material.IRON)

@@ -1,0 +1,5 @@
+{
+  "variants": {
+    "": { "model": "mercurialtools:block/ender_vacuum" }
+  }
+}
