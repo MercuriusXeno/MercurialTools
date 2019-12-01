@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "dbd",
+    "bsb",
+    "dbd"
+  ],
+  "key": {
+    "d": {
+      "tag": "minecraft:diamond"
+    },
+    "b": {
+      "tag": "minecraft:iron_bars"
+    },
+    "s": {
+      "tag": "minecraft:soul_sand"
+    }
+  },
+  "result": {
+    "item": "mercurialtools:spawner_template"
+  }
+}

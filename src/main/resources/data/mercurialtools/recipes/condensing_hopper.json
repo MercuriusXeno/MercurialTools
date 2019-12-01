@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "eee",
+    "ehe",
+    "ddd"
+  ],
+  "key": {
+    "h": {
+      "item": "minecraft:hopper"
+    },
+    "d": {
+      "item": "minecraft:diamond_block"
+    },
+    "e": {
+      "item": "minecraft:ender_pearl"
+    }
+  },
+  "result": {
+    "item": "mercurialtools:condensing_hopper"
+  }
+}

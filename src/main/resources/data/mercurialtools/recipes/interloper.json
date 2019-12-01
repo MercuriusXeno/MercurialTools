@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "owo",
+    "wvw",
+    "rrr"
+  ],
+  "key": {
+    "v": {
+      "tag": "minecraft:observer"
+    },
+    "o": {
+      "tag": "minecraft:obsidian"
+    },
+    "w": {
+      "tag": "minecraft:wither_skeleton_skull"
+    },
+    "r": {
+      "tag": "minecraft:redstone_block"
+    }
+  },
+  "result": {
+    "item": "mercurialtools:interloper"
+  }
+}

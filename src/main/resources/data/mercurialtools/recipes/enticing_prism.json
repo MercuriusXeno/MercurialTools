@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "rwr",
+    "wlw",
+    "rwr"
+  ],
+  "key": {
+    "l": {
+      "tag": "minecraft:sea_lantern"
+    },
+    "r": {
+      "tag": "forge:dyes/red"
+    },
+    "w": {
+      "tag": "minecraft:cobweb"
+    }
+  },
+  "result": {
+    "item": "mercurialtools:enticing_prism"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "gbg",
+    "blb",
+    "gbg"
+  ],
+  "key": {
+    "l": {
+      "tag": "minecraft:sea_lantern"
+    },
+    "g": {
+      "tag": "forge:dyes/green"
+    },
+    "b": {
+      "tag": "minecraft:bone_block"
+    }
+  },
+  "result": {
+    "item": "mercurialtools:growth_pulser"
+  }
+}
