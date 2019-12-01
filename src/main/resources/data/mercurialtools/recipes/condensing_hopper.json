@@ -1,7 +1,7 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "eee",
+    "mmm",
     "ehe",
     "ddd"
   ],
@@ -14,6 +14,9 @@
     },
     "e": {
       "item": "minecraft:ender_pearl"
+    },
+    "m": {
+      "item": "mercurialtools:mercurial_blend"
     }
   },
   "result": {

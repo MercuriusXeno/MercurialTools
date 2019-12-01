@@ -18,7 +18,7 @@ public class ModBlocks {
     @ObjectHolder("mercurialtools:expanding_hopper")
     public static ExpandingHopper EXPANDING_HOPPER;
 
-    @ObjectHolder("mercurialtools:growth_pusler")
+    @ObjectHolder("mercurialtools:growth_pulser")
     public static GrowthPulser GROWTH_PULSER;
 
     @ObjectHolder("mercurialtools:interloper")

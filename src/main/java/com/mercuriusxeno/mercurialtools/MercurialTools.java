@@ -1,10 +1,15 @@
 package com.mercuriusxeno.mercurialtools;
 
+import com.mercuriusxeno.mercurialtools.block.*;
+import com.mercuriusxeno.mercurialtools.reference.Names;
 import com.mercuriusxeno.mercurialtools.setup.ClientProxy;
 import com.mercuriusxeno.mercurialtools.setup.IProxy;
+import com.mercuriusxeno.mercurialtools.setup.ModSetup;
 import com.mercuriusxeno.mercurialtools.setup.ServerProxy;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -29,6 +34,8 @@ public class MercurialTools
     // Directly reference a log4j logger.
     private static final Logger LOGGER = LogManager.getLogger();
 
+    public static ModSetup setup = new ModSetup();
+
     public static IProxy proxy = DistExecutor.runForDist(() -> () -> new ClientProxy(), () -> () -> new ServerProxy());
     public MercurialTools() {
         // Register the setup method for modloading
@@ -48,8 +55,41 @@ public class MercurialTools
     {
         // some preinit code
         LOGGER.info("Mercurial Tools Setup");
-        // LOGGER.info("DIRT BLOCK >> {}", Blocks.DIRT.getRegistryName());
+        setup.init();
+        proxy.init();
     }
+
+    @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
+    public static class RegistryEvents {
+        @SubscribeEvent
+        public static void onBlocksRegistry(final RegistryEvent.Register<Block> event) {
+            // blocks
+            event.getRegistry().register(new CondensingHopper());
+            event.getRegistry().register(new EnderKeystone());
+            event.getRegistry().register(new EnderVacuum());
+            event.getRegistry().register(new EnticingPrism());
+            event.getRegistry().register(new ExpandingHopper());
+            event.getRegistry().register(new GrowthPulser());
+            event.getRegistry().register(new Interloper());
+            event.getRegistry().register(new SpawnerTemplate());
+        }
+
+        @SubscribeEvent
+        public static void onItemsRegistry(final RegistryEvent.Register<Item> event) {
+            Item.Properties properties = new Item.Properties().group(setup.itemGroup);
+
+            // item blocks
+            event.getRegistry().register(new BlockItem(ModBlocks.CONDENSING_HOPPER, properties).setRegistryName(Names.CONDENSING_HOPPER));
+            event.getRegistry().register(new BlockItem(ModBlocks.ENDER_KEYSTONE, properties).setRegistryName(Names.ENDER_KEYSTONE));
+            event.getRegistry().register(new BlockItem(ModBlocks.ENDER_VACUUM, properties).setRegistryName(Names.ENDER_VACUUM));
+            event.getRegistry().register(new BlockItem(ModBlocks.ENTICING_PRISM, properties).setRegistryName(Names.ENTICING_PRISM));
+            event.getRegistry().register(new BlockItem(ModBlocks.EXPANDING_HOPPER, properties).setRegistryName(Names.EXPANDING_HOPPER));
+            event.getRegistry().register(new BlockItem(ModBlocks.GROWTH_PULSER, properties).setRegistryName(Names.GROWTH_PULSER));
+            event.getRegistry().register(new BlockItem(ModBlocks.INTERLOPER, properties).setRegistryName(Names.INTERLOPER));
+            event.getRegistry().register(new BlockItem(ModBlocks.SPAWNER_TEMPLATE, properties).setRegistryName(Names.SPAWNER_TEMPLATE));
+        }
+    }
+
 //
 //    private void doClientStuff(final FMLClientSetupEvent event) {
 //        // do something that can only be done on the client

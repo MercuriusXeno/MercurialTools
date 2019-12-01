@@ -11,7 +11,7 @@ public class GrowthPulser extends Block {
                 .create(Material.GLASS)
                 .sound(SoundType.GLASS)
                 .hardnessAndResistance(2.0f)
-                .lightValue(0));
+                .lightValue(15));
         setRegistryName(Names.GROWTH_PULSER);
     }
 }

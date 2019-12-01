@@ -2,14 +2,14 @@ package com.mercuriusxeno.mercurialtools.reference;
 
 public class Names {
     // blocks
-    public static final String INTERLOPER = "interloper";
-    public static final String ENTICING_PRISM = "enticing_prism";
-    public static final String GROWTH_PULSER = "growth_pulser";
-    public static final String ENDER_VACUUM = "ender_vacuum";
-    public static final String ENDER_KEYSTONE = "ender_keystone";
-    public static final String SPAWNER_TEMPLATE = "spawner_template";
     public static final String CONDENSING_HOPPER = "condensing_hopper";
+    public static final String ENDER_KEYSTONE = "ender_keystone";
+    public static final String ENDER_VACUUM = "ender_vacuum";
+    public static final String ENTICING_PRISM = "enticing_prism";
     public static final String EXPANDING_HOPPER = "expanding_hopper";
+    public static final String GROWTH_PULSER = "growth_pulser";
+    public static final String INTERLOPER = "interloper";
+    public static final String SPAWNER_TEMPLATE = "spawner_template";
 
     // items
     public static final String MERCURIAL_MANUAL = "mercurial_manual";
