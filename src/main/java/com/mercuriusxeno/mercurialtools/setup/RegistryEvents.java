@@ -1,6 +1,7 @@
 package com.mercuriusxeno.mercurialtools.setup;
 
 
+import com.mercuriusxeno.mercurialtools.block.Interloper;
 import com.mercuriusxeno.mercurialtools.block.ModBlocks;
 import com.mercuriusxeno.mercurialtools.block.SpawnerTemplate;
 import com.mercuriusxeno.mercurialtools.reference.Names;
@@ -18,6 +19,7 @@ public class RegistryEvents {
         // register a new block here
         // LOGGER.info("HELLO from Register Block");
         event.getRegistry().register(new SpawnerTemplate());
+        event.getRegistry().register(new Interloper());
     }
 
     @SubscribeEvent
@@ -25,5 +27,6 @@ public class RegistryEvents {
         // register a new block here
         // LOGGER.info("HELLO from Register Block");
         event.getRegistry().register(new BlockItem(ModBlocks.SPAWNER_TEMPLATE, new Item.Properties()).setRegistryName(Names.SPAWNER_TEMPLATE));
+        event.getRegistry().register(new BlockItem(ModBlocks.INTERLOPER, new Item.Properties()).setRegistryName(Names.INTERLOPER));
     }
 }
