@@ -8,6 +8,8 @@ public class Names {
     public static final String ENDER_VACUUM = "ender_vacuum";
     public static final String ENDER_KEYSTONE = "ender_keystone";
     public static final String SPAWNER_TEMPLATE = "spawner_template";
+    public static final String CONDENSING_HOPPER = "condensing_hopper";
+    public static final String EXPANDING_HOPPER = "expanding_hopper";
 
     // items
     public static final String MERCURIAL_MANUAL = "mercurial_manual";
