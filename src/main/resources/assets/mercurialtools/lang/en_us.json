@@ -1,0 +1,17 @@
+{
+  "_comment": "Blocks",
+  "block.mercurialtools.condensing_hopper": "Condensing Hopper",
+  "block.mercurialtools.ender_keystone": "Ender Keystone",
+  "block.mercurialtools.ender_vacuum": "Ender Vacuum",
+  "block.mercurialtools.enticing_prism": "Enticing Prism",
+  "block.mercurialtools.expanding_hopper": "Expanding Hopper",
+  "block.mercurialtools.growth_pulser": "Growth Pulser",
+  "block.mercurialtools.interloper": "Interloper",
+  "block.mercurialtools.spawner_template": "Lifeless Spawner",
+
+  "_comment": "Items",
+
+  "_comment": "Creative Tabs",
+
+  "_comment": "Messages",
+}
