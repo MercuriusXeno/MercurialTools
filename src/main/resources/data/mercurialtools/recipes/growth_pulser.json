@@ -7,13 +7,13 @@
   ],
   "key": {
     "l": {
-      "tag": "minecraft:sea_lantern"
+      "item": "minecraft:sea_lantern"
     },
     "g": {
       "tag": "forge:dyes/green"
     },
     "b": {
-      "tag": "minecraft:bone_block"
+      "item": "minecraft:bone_block"
     }
   },
   "result": {

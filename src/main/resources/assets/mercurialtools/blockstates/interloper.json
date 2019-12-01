@@ -11,6 +11,31 @@
     "facing=north,topfacing=up": { "model": "mercurialtools:block/interloper" },
     "facing=south,topfacing=up": { "model": "mercurialtools:block/interloper", "y": 180 },
     "facing=west,topfacing=up": { "model": "mercurialtools:block/interloper", "y": 270 },
-    "facing=east,topfacing=up": { "model": "mercurialtools:block/interloper", "y": 90 }
+    "facing=east,topfacing=up": { "model": "mercurialtools:block/interloper", "y": 90 },
+
+    "facing=east,topfacing=south": { "model": "mercurialtools:block/interloper" },
+    "facing=down,topfacing=down": { "model": "mercurialtools:block/interloper" },
+    "facing=south,topfacing=east": { "model": "mercurialtools:block/interloper" },
+    "facing=east,topfacing=west": { "model": "mercurialtools:block/interloper" },
+    "facing=north,topfacing=north": { "model": "mercurialtools:block/interloper" },
+    "facing=north,topfacing=east": { "model": "mercurialtools:block/interloper" },
+    "facing=south,topfacing=west": { "model": "mercurialtools:block/interloper" },
+    "facing=south,topfacing=down": { "model": "mercurialtools:block/interloper" },
+    "facing=down,topfacing=up": { "model": "mercurialtools:block/interloper" },
+    "facing=west,topfacing=down": { "model": "mercurialtools:block/interloper" },
+    "facing=west,topfacing=south": { "model": "mercurialtools:block/interloper" },
+    "facing=west,topfacing=north": { "model": "mercurialtools:block/interloper" },
+    "facing=east,topfacing=east": { "model": "mercurialtools:block/interloper" },
+    "facing=north,topfacing=west": { "model": "mercurialtools:block/interloper" },
+    "facing=west,topfacing=west": { "model": "mercurialtools:block/interloper" },
+    "facing=south,topfacing=north": { "model": "mercurialtools:block/interloper" },
+    "facing=north,topfacing=south": { "model": "mercurialtools:block/interloper" },
+    "facing=up,topfacing=down": { "model": "mercurialtools:block/interloper" },
+    "facing=east,topfacing=down": { "model": "mercurialtools:block/interloper" },
+    "facing=west,topfacing=east": { "model": "mercurialtools:block/interloper" },
+    "facing=south,topfacing=south": { "model": "mercurialtools:block/interloper" },
+    "facing=up,topfacing=up": { "model": "mercurialtools:block/interloper" },
+    "facing=north,topfacing=down": { "model": "mercurialtools:block/interloper" },
+    "facing=east,topfacing=north": { "model": "mercurialtools:block/interloper" }
   }
 }

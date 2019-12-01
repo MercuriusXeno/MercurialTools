@@ -7,13 +7,13 @@
   ],
   "key": {
     "d": {
-      "tag": "minecraft:diamond"
+      "item": "minecraft:diamond"
     },
     "b": {
-      "tag": "minecraft:iron_bars"
+      "item": "minecraft:iron_bars"
     },
     "s": {
-      "tag": "minecraft:soul_sand"
+      "item": "minecraft:soul_sand"
     }
   },
   "result": {
