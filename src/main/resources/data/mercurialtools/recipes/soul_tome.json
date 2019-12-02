@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "bbf",
+    "bbm",
+    "bbm"
+  ],
+  "key": {
+    "b": {
+      "item": "minecraft:book"
+    },
+    "m": {
+      "item": "mercurialtools:mercurial_blend"
+    },
+    "f": {
+      "item": "minecraft:feather"
+    }
+  },
+  "result": {
+    "item": "mercurialtools:soul_tome"
+  }
+}

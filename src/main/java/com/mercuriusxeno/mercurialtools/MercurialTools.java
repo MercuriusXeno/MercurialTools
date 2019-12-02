@@ -97,7 +97,6 @@ public class MercurialTools
             event.getRegistry().register(new CrystalCompass());
             event.getRegistry().register(new CubingTalisman());
             event.getRegistry().register(new MercurialBlend());
-            event.getRegistry().register(new MercurialManual());
             event.getRegistry().register(new ModeratingGeode());
             event.getRegistry().register(new PotionBelt());
             event.getRegistry().register(new Quiver());

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "i i",
+    "lll",
+    "rrr"
+  ],
+  "key": {
+    "i": {
+      "item": "minecraft:iron_ingot"
+    },
+    "l": {
+      "item": "minecraft:leather"
+    },
+    "r": {
+      "item": "minecraft:rabbit_hide"
+    }
+  },
+  "result": {
+    "item": "mercurialtools:potion_belt"
+  }
+}

@@ -22,5 +22,6 @@
   "_comment": "Creative Tabs",
   "itemGroup.mercurialtools": "Mercurial Tools",
 
-  "_comment": "Messages"
+  "_comment": "Patchouli",
+  "mercurialtools.landing_patchouli_text": "Thanks for trying Mercurial Tools! This is a short guide to help explain the functions of the mod items and blocks."
 }

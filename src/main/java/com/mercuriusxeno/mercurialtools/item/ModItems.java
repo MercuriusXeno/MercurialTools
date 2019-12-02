@@ -12,9 +12,6 @@ public class ModItems {
     @ObjectHolder("mercurialtools:mercurial_blend")
     public static MercurialBlend MERCURIAL_BLEND;
 
-    @ObjectHolder("mercurialtools:mercurial_manual")
-    public static MercurialManual MERCURIAL_MANUAL;
-
     @ObjectHolder("mercurialtools:moderating_geode")
     public static ModeratingGeode MODERATING_GEODE;
 

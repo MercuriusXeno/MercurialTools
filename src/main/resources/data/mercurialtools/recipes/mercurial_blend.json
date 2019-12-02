@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "minecraft:slime_ball" },
+    { "item": "minecraft:redstone" },
+    { "item": "minecraft:sugar" },
+    { "tag": "forge:dyes/black" }
+  ],
+  "result": {
+    "item": "mercurialtools:mercurial_blend"
+  }
+}

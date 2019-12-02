@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "lrl",
+    "olo",
+    "sss"
+  ],
+  "key": {
+    "o": {
+      "item": "minecraft:obsidian"
+    },
+    "l": {
+      "item": "minecraft:lapis_lazuli"
+    },
+    "r": {
+      "tag": "forge:dyes/red"
+    },
+    "s": {
+      "item": "minecraft:stone"
+    }
+  },
+  "result": {
+    "item": "mercurialtools:moderating_geode"
+  }
+}

@@ -12,7 +12,6 @@ public class Names {
     public static final String SPAWNER_TEMPLATE = "spawner_template";
 
     // items
-    public static final String MERCURIAL_MANUAL = "mercurial_manual";
     public static final String MERCURIAL_BLEND = "mercurial_blend";
     public static final String MODERATING_GEODE = "moderating_geode";
     public static final String POTION_BELT = "potion_belt";
