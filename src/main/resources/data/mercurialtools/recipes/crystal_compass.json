@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ded",
+    "lcl",
+    "ded"
+  ],
+  "key": {
+    "c": {
+      "item": "minecraft:compass"
+    },
+    "l": {
+      "item": "minecraft:lapis_block"
+    },
+    "e": {
+      "item": "minecraft:emerald_block"
+    },
+    "d": {
+      "item": "minecraft:diamond_block"
+    }
+  },
+  "result": {
+    "item": "mercurialtools:crystal_compass"
+  }
+}
