@@ -2,26 +2,38 @@ package com.mercuriusxeno.mercurialtools.item;
 
 import com.mercuriusxeno.mercurialtools.MercurialTools;
 import com.mercuriusxeno.mercurialtools.reference.Names;
+import com.mercuriusxeno.mercurialtools.util.NbtUtil;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.CraftingInventory;
+import net.minecraft.item.FishingRodItem;
+import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Tuple;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.state.BooleanProperty;
+import net.minecraft.state.DirectionProperty;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class CubingTalisman extends Item {
+    public IItemPropertyGetter disablingPropertyGetter = (itemStack, worldIn, usingEntity) -> NbtUtil.getIsDisabled(itemStack) ? 1.0F : 0.0F;
+
     public CubingTalisman() {
         super(new Properties()
                 .maxStackSize(1)
                 .group(MercurialTools.setup.itemGroup));
+        this.addPropertyOverride(new ResourceLocation("is_disabled"), disablingPropertyGetter);
         setRegistryName(Names.CUBING_TALISMAN);
     }
 
@@ -42,6 +54,12 @@ public class CubingTalisman extends Item {
       )
     );
 
+    @Override
+    public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
+        ItemStack itemStack = playerIn.getHeldItem(handIn);
+        NbtUtil.setIsDisabled(itemStack, !NbtUtil.getIsDisabled(itemStack));
+        return new ActionResult<>(ActionResultType.PASS, itemStack);
+    }
 
     /**
      * Called each tick as long the item is on a player inventory. Uses by maps to check if is on a player hand and
@@ -54,6 +72,10 @@ public class CubingTalisman extends Item {
         }
 
         if (!(entityIn instanceof PlayerEntity)) {
+            return;
+        }
+
+        if (NbtUtil.getIsDisabled(stack)) {
             return;
         }
 

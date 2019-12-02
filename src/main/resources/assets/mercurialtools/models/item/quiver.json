@@ -2,5 +2,8 @@
   "parent": "item/handheld",
   "textures": {
     "layer0": "mercurialtools:item/quiver"
-  }
+  },
+  "overrides": [
+    { "predicate": { "is_disabled": 1.0 }, "model": "mercurialtools:item/quiver_disabled" }
+  ]
 }

@@ -5,6 +5,9 @@
     { "item": "minecraft:book" }
   ],
   "result": {
-    "item": "mercurialtools:mercurial_manual"
+    "item": "patchouli:guide_book",
+    "nbt": {
+      "patchouli:book": "mercurial_manual"
+    }
   }
 }
