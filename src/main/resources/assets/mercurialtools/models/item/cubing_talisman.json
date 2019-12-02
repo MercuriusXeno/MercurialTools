@@ -1,6 +1,6 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "mercurialtools:item/soul_tome"
+    "layer0": "mercurialtools:item/cubing_talisman"
   }
 }

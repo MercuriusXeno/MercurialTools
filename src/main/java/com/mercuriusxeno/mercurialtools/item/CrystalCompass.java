@@ -201,8 +201,6 @@ public class CrystalCompass extends Item {
                     }
                 }
 
-                System.out.println("Seeking crystals...");
-
                 return closestBlockPos;
             }
         });
