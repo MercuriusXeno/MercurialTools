@@ -1,6 +1,7 @@
 package com.mercuriusxeno.mercurialtools;
 
 import com.mercuriusxeno.mercurialtools.block.*;
+import com.mercuriusxeno.mercurialtools.item.*;
 import com.mercuriusxeno.mercurialtools.reference.Names;
 import com.mercuriusxeno.mercurialtools.setup.ClientProxy;
 import com.mercuriusxeno.mercurialtools.setup.IProxy;
@@ -37,6 +38,10 @@ public class MercurialTools
     public static ModSetup setup = new ModSetup();
 
     public static IProxy proxy = DistExecutor.runForDist(() -> () -> new ClientProxy(), () -> () -> new ServerProxy());
+
+    // TODO ALWAYS DISABLE THIS FOR RELEASES
+    public static boolean isDebug = true;
+
     public MercurialTools() {
         // Register the setup method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
@@ -87,6 +92,16 @@ public class MercurialTools
             event.getRegistry().register(new BlockItem(ModBlocks.GROWTH_PULSER, properties).setRegistryName(Names.GROWTH_PULSER));
             event.getRegistry().register(new BlockItem(ModBlocks.INTERLOPER, properties).setRegistryName(Names.INTERLOPER));
             event.getRegistry().register(new BlockItem(ModBlocks.SPAWNER_TEMPLATE, properties).setRegistryName(Names.SPAWNER_TEMPLATE));
+
+            // plain ol' items
+            event.getRegistry().register(new CrystalCompass());
+            event.getRegistry().register(new CubingTalisman());
+            event.getRegistry().register(new MercurialBlend());
+            event.getRegistry().register(new MercurialManual());
+            event.getRegistry().register(new ModeratingGeode());
+            event.getRegistry().register(new PotionBelt());
+            event.getRegistry().register(new Quiver());
+            event.getRegistry().register(new SoulTome());
         }
     }
 
