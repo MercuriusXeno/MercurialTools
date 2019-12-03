@@ -1,10 +1,12 @@
 package com.mercuriusxeno.mercurialtools.item;
 
+import com.google.common.collect.Lists;
 import com.mercuriusxeno.mercurialtools.MercurialTools;
 import com.mercuriusxeno.mercurialtools.reference.Names;
 import com.mercuriusxeno.mercurialtools.util.ItemUtil;
 import com.mercuriusxeno.mercurialtools.util.NbtUtil;
 import net.minecraft.block.Blocks;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -14,10 +16,17 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.*;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TextComponent;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class ModeratingGeode extends Item {
     public ModeratingGeode() {
@@ -44,6 +53,21 @@ public class ModeratingGeode extends Item {
                     Blocks.END_STONE.asItem()
             )
     );
+
+    /**
+     * allows items to add custom lines of information to the mouseover description
+     */
+    @OnlyIn(Dist.CLIENT)
+    public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+        List<ITextComponent> tooltipList = Lists.newArrayList();
+        ArrayList<Tuple<String, Integer>> distinctItemCounts = NbtUtil.getDistinctItemCountsForDisplay(stack);
+        for(int i = 0; i < distinctItemCounts.size(); i++) {
+            Tuple<String, Integer> itemTuple = distinctItemCounts.get(i);
+            String displayTextLine = String.format("%s: %d", itemTuple.getA(), itemTuple.getB());
+            tooltipList.add(new StringTextComponent(displayTextLine));
+        }
+        tooltip.addAll(tooltipList);
+    }
 
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {

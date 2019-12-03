@@ -33,7 +33,7 @@ public class SoulTome extends Item {
      */
     @Override
     public int getUseDuration(ItemStack stack) {
-        return 72000;
+        return 120;
     }
 
     /**
@@ -47,10 +47,20 @@ public class SoulTome extends Item {
         return new ActionResult<>(ActionResultType.SUCCESS, itemstack);
     }
 
+    @Override
+    public ItemStack onItemUseFinish(ItemStack stack, World worldIn, LivingEntity entityLiving) {
+        return super.onItemUseFinish(stack, worldIn, entityLiving);
+    }
+
     /**
      * Called when the player stops using an Item (stops holding the right mouse button).
      */
     @Override
     public void onPlayerStoppedUsing(ItemStack stack, World worldIn, LivingEntity entityLiving, int timeLeft) {
+    }
+
+    @Override
+    public void onUsingTick(ItemStack stack, LivingEntity player, int count) {
+
     }
 }

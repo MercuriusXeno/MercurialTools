@@ -2,12 +2,16 @@ package com.mercuriusxeno.mercurialtools.util;
 
 import com.mercuriusxeno.mercurialtools.reference.Constants;
 import com.mercuriusxeno.mercurialtools.reference.Names;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.Tuple;
+
+import java.util.ArrayList;
 
 /// set of static helpers for manipulating itemstack nbt, since they're somewhat common.
 public class NbtUtil {
@@ -95,5 +99,55 @@ public class NbtUtil {
         ItemStackHelper.saveAllItems(tag, containedStacks);
 
         containerItem.setTag(tag);
+    }
+
+    public static NonNullList<ItemStack> getAllDistinctlyTaggedStacks(ItemStack container) {
+        ArrayList<ItemStack> matchingStacks = new ArrayList<>();
+        NonNullList<ItemStack> containedItems = NbtUtil.getItems(container);
+        for(int i = 0; i < containedItems.size(); i++) {
+            ItemStack stack = containedItems.get(i);
+            boolean isAlreadyFound = false;
+            for(ItemStack alreadyFoundStack : matchingStacks) {
+                if (ItemStack.areItemStackTagsEqual(alreadyFoundStack, stack)) {
+                    isAlreadyFound = true;
+                }
+            }
+            if (!isAlreadyFound) {
+                matchingStacks.add(stack);
+            }
+        }
+        int distinctCount = matchingStacks.size();
+        NonNullList<ItemStack> results = NonNullList.withSize(distinctCount, ItemStack.EMPTY);
+        for(int i = 0; i < distinctCount; i++) {
+            results.set(i, matchingStacks.get(i));
+        }
+        return results;
+    }
+
+    public static ArrayList<Tuple<String, Integer>> getDistinctItemCountsForDisplay(ItemStack stack) {
+        NonNullList<ItemStack> distinctItems = getAllDistinctlyTaggedStacks(stack);
+        NonNullList<ItemStack> containedItems = NbtUtil.getItems(stack);
+        ArrayList<Tuple<String, Integer>> results = new ArrayList<>();
+        for(ItemStack distinctItem : distinctItems) {
+            if (distinctItem == ItemStack.EMPTY) {
+                continue;
+            }
+            int count = 0;
+            for (int i = 0; i < containedItems.size(); i++) {
+                ItemStack foundStack = containedItems.get(i);
+                if (foundStack == ItemStack.EMPTY) {
+                    continue;
+                }
+                if (!foundStack.isItemEqual(distinctItem)) {
+                    continue;
+                }
+                if (!ItemStack.areItemStackTagsEqual(foundStack, distinctItem)) {
+                    continue;
+                }
+                count += foundStack.getCount();
+            }
+            results.add(new Tuple<>(distinctItem.getDisplayName().getFormattedText(), count));
+        }
+        return results;
     }
 }
