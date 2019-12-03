@@ -75,8 +75,10 @@ public class CubingTalisman extends Item {
         PlayerInventory playerInventory = player.inventory;
 
         for(Tuple<Item, Item> cubingPair : CUBING_OBJECT_NAME_PAIRS) {
-            int blockItemTotal = ItemUtil.getItemCount(cubingPair.getB(), playerInventory.mainInventory) * 9;
-            int singletonItemTotal = ItemUtil.getItemCount(cubingPair.getA(), playerInventory.mainInventory);
+            ItemStack blockItemStack = new ItemStack(cubingPair.getB());
+            ItemStack singleItemStack = new ItemStack(cubingPair.getA());
+            int blockItemTotal = ItemUtil.getItemCount(blockItemStack, playerInventory.mainInventory) * 9;
+            int singletonItemTotal = ItemUtil.getItemCount(singleItemStack, playerInventory.mainInventory);
 
             int itemTotal = blockItemTotal + singletonItemTotal;
             // player has enough of the item in their inventory to justify

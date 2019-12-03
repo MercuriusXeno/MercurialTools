@@ -67,13 +67,13 @@ public class ModeratingGeode extends Item {
         PlayerEntity player = (PlayerEntity) entityIn;
 
         if (NbtUtil.getIsDisabled(stack)) {
-            undoModeratingGeodeThing(stack, player);
+            undoGeodeThing(stack, player);
         } else {
-            doModeratingGeodeThing(stack, player);
+            doGeodeThing(stack, player);
         }
     }
 
-    private static void undoModeratingGeodeThing(ItemStack geodeStack, PlayerEntity player) {
+    private static void undoGeodeThing(ItemStack geodeStack, PlayerEntity player) {
         PlayerInventory playerInventory = player.inventory;
 
         NonNullList<ItemStack> geodeItems = NbtUtil.getItems(geodeStack);
@@ -94,16 +94,19 @@ public class ModeratingGeode extends Item {
         }
     }
 
-    private static void doModeratingGeodeThing(ItemStack geodeStack, PlayerEntity player) {
+    private static void doGeodeThing(ItemStack geodeStack, PlayerEntity player) {
         PlayerInventory playerInventory = player.inventory;
 
         for(Item itemToConsume : GEODE_CONSUMES_THESE) {
-            // check that we have more than max stack size of the item in question.
-            ItemStack replacementStack = ItemUtil.createStackFromItem(itemToConsume);
+            // make sure we respect distinct nbt tags, we do this by
+            // getting all items in the player inventory with distint NBTs
+            NonNullList<ItemStack> distinctStacks = ItemUtil.getAllDistinctlyTaggedStacks(playerInventory, itemToConsume);
 
-            while (ItemUtil.getItemCountInInventory(playerInventory, itemToConsume) > replacementStack.getMaxStackSize()) {
-                ItemStack stackFound = ItemUtil.getAndRemoveOneStack(playerInventory.mainInventory, itemToConsume);
-                NbtUtil.addItemStackToContainerItem(geodeStack, stackFound);
+            for(ItemStack distinctStack : distinctStacks) {
+                while (ItemUtil.getItemCountInInventory(playerInventory, distinctStack) > distinctStack.getMaxStackSize()) {
+                    ItemStack stackFound = ItemUtil.getAndRemoveOneStack(playerInventory.mainInventory, distinctStack);
+                    NbtUtil.addItemStackToContainerItem(geodeStack, stackFound);
+                }
             }
         }
     }
