@@ -67,13 +67,13 @@ public class ModeratingGeode extends Item {
         PlayerEntity player = (PlayerEntity) entityIn;
 
         if (NbtUtil.getIsDisabled(stack)) {
-            undoGeodeThing(stack, player);
+            undoContainment(stack, player);
         } else {
-            doGeodeThing(stack, player);
+            doContainment(stack, player);
         }
     }
 
-    private static void undoGeodeThing(ItemStack geodeStack, PlayerEntity player) {
+    private static void undoContainment(ItemStack geodeStack, PlayerEntity player) {
         PlayerInventory playerInventory = player.inventory;
 
         NonNullList<ItemStack> geodeItems = NbtUtil.getItems(geodeStack);
@@ -94,19 +94,35 @@ public class ModeratingGeode extends Item {
         }
     }
 
-    private static void doGeodeThing(ItemStack geodeStack, PlayerEntity player) {
+    private static void doContainment(ItemStack container, PlayerEntity player) {
         PlayerInventory playerInventory = player.inventory;
 
         for(Item itemToConsume : GEODE_CONSUMES_THESE) {
             // make sure we respect distinct nbt tags, we do this by
             // getting all items in the player inventory with distint NBTs
-            NonNullList<ItemStack> distinctStacks = ItemUtil.getAllDistinctlyTaggedStacks(playerInventory, itemToConsume);
+            NonNullList<ItemStack> distinctStacks = ItemUtil.getAllDistinctlyTaggedStacks(playerInventory, container, itemToConsume);
 
             for(ItemStack distinctStack : distinctStacks) {
                 while (ItemUtil.getItemCountInInventory(playerInventory, distinctStack) > distinctStack.getMaxStackSize()) {
                     ItemStack stackFound = ItemUtil.getAndRemoveOneStack(playerInventory.mainInventory, distinctStack);
-                    NbtUtil.addItemStackToContainerItem(geodeStack, stackFound);
+                    NbtUtil.addItemStackToContainerItem(container, stackFound);
                 }
+
+                NonNullList<ItemStack> containedItems = NbtUtil.getItems(container);
+                int amountWeWouldLike = distinctStack.getMaxStackSize() - ItemUtil.getItemCountInInventory(playerInventory, distinctStack);
+                if (amountWeWouldLike <= 0) {
+                    continue;
+                }
+                // the opposite should occur for each distinct stack that isn't full when the container item has items in it
+                ItemStack siphonedStack = ItemUtil.siphonStacks(distinctStack, amountWeWouldLike, containedItems);
+                if (!playerInventory.addItemStackToInventory(siphonedStack)) {
+                    NbtUtil.addItemStackToContainerItem(container, siphonedStack);
+                }
+
+                // no matter what just happened, persist the Nbt updates.
+                CompoundNBT tag = container.getTag();
+                ItemStackHelper.saveAllItems(tag, containedItems);
+                container.setTag(tag);
             }
         }
     }

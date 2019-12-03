@@ -33,7 +33,8 @@ public class PotionBelt extends Item {
             Arrays.asList(
                     Items.POTION,
                     Items.LINGERING_POTION,
-                    Items.SPLASH_POTION
+                    Items.SPLASH_POTION,
+                    Items.GLASS_BOTTLE
             )
     );
 
@@ -59,13 +60,13 @@ public class PotionBelt extends Item {
         PlayerEntity player = (PlayerEntity) entityIn;
 
         if (NbtUtil.getIsDisabled(stack)) {
-            undoBeltThing(stack, player);
+            undoContainment(stack, player);
         } else {
-            doBeltThing(stack, player);
+            doContainment(stack, player);
         }
     }
 
-    private static void undoBeltThing(ItemStack beltStack, PlayerEntity player) {
+    private static void undoContainment(ItemStack beltStack, PlayerEntity player) {
         PlayerInventory playerInventory = player.inventory;
 
         NonNullList<ItemStack> beltItems = NbtUtil.getItems(beltStack);
@@ -86,20 +87,44 @@ public class PotionBelt extends Item {
         }
     }
 
-    private static void doBeltThing(ItemStack beltStack, PlayerEntity player) {
+    private static void doContainment(ItemStack container, PlayerEntity player) {
         PlayerInventory playerInventory = player.inventory;
 
         for(Item itemToConsume : BELT_CONSUMES_THESE) {
             // make sure we respect distinct nbt tags, we do this by
             // getting all items in the player inventory with distint NBTs
-            NonNullList<ItemStack> distinctStacks = ItemUtil.getAllDistinctlyTaggedStacks(playerInventory, itemToConsume);
+            NonNullList<ItemStack> distinctStacks = ItemUtil.getAllDistinctlyTaggedStacks(playerInventory, container, itemToConsume);
 
             for(ItemStack distinctStack : distinctStacks) {
-                while (ItemUtil.getItemCountInInventory(playerInventory, distinctStack) > distinctStack.getMaxStackSize()) {
+                // this item has a special consideration for glass bottles
+                // we don't want a glass bottle left in every potion consumed slot.
+                // this causes the belt to consume all bottles, and leave none.
+                int howManyDoWeWant = getHowManyWeWant(distinctStack);
+                while (ItemUtil.getItemCountInInventory(playerInventory, distinctStack) > howManyDoWeWant) {
                     ItemStack stackFound = ItemUtil.getAndRemoveOneStack(playerInventory.mainInventory, distinctStack);
-                    NbtUtil.addItemStackToContainerItem(beltStack, stackFound);
+                    NbtUtil.addItemStackToContainerItem(container, stackFound);
                 }
+
+                NonNullList<ItemStack> containedItems = NbtUtil.getItems(container);
+                int amountWeWouldLike = howManyDoWeWant - ItemUtil.getItemCountInInventory(playerInventory, distinctStack);
+                if (amountWeWouldLike <= 0) {
+                    continue;
+                }
+                // the opposite should occur for each distinct stack that isn't full when the container item has items in it
+                ItemStack siphonedStack = ItemUtil.siphonStacks(distinctStack, amountWeWouldLike, containedItems);
+                if (!playerInventory.addItemStackToInventory(siphonedStack)) {
+                    NbtUtil.addItemStackToContainerItem(container, siphonedStack);
+                }
+
+                // no matter what just happened, persist the Nbt updates.
+                CompoundNBT tag = container.getTag();
+                ItemStackHelper.saveAllItems(tag, containedItems);
+                container.setTag(tag);
             }
         }
+    }
+
+    private static int getHowManyWeWant(ItemStack distinctStack) {
+        return distinctStack.getItem().equals(Items.GLASS_BOTTLE) ? 0 : distinctStack.getMaxStackSize();
     }
 }

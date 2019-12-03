@@ -81,7 +81,7 @@ public class ItemUtil {
         return ItemStack.EMPTY;
     }
 
-    public static NonNullList<ItemStack> getAllDistinctlyTaggedStacks(PlayerInventory playerInventory, Item itemToConsume) {
+    public static NonNullList<ItemStack> getAllDistinctlyTaggedStacks(PlayerInventory playerInventory, ItemStack container, Item itemToConsume) {
         ArrayList<ItemStack> matchingStacks = new ArrayList<>();
         for(int i = 0; i < playerInventory.mainInventory.size(); i++) {
             ItemStack stack = playerInventory.mainInventory.get(i);
@@ -102,11 +102,50 @@ public class ItemUtil {
                 matchingStacks.add(stack);
             }
         }
+        NonNullList<ItemStack> containedItems = NbtUtil.getItems(container);
+        for(int i = 0; i < containedItems.size(); i++) {
+            ItemStack stack = containedItems.get(i);
+            // they're not the same item.
+            if (!stack.getItem().equals(itemToConsume)) {
+                continue;
+            }
+            boolean isAlreadyFound = false;
+            for(ItemStack alreadyFoundStack : matchingStacks) {
+                if (ItemStack.areItemStackTagsEqual(alreadyFoundStack, stack)) {
+                    isAlreadyFound = true;
+                }
+            }
+            if (!isAlreadyFound) {
+                matchingStacks.add(stack);
+            }
+        }
         int distinctCount = matchingStacks.size();
         NonNullList<ItemStack> results = NonNullList.withSize(distinctCount, ItemStack.EMPTY);
         for(int i = 0; i < distinctCount; i++) {
             results.set(i, matchingStacks.get(i));
         }
         return results;
+    }
+
+    public static ItemStack siphonStacks(ItemStack distinctStack, int amountWeWouldLike, NonNullList<ItemStack> containedItems) {
+        ItemStack result = ItemStack.EMPTY;
+        for (int i = containedItems.size() - 1; i >= 0; i--) {
+            ItemStack containedItem = containedItems.get(i);
+            if (containedItem == ItemStack.EMPTY) {
+                continue;
+            }
+            // they're not the same item.
+            if (!containedItem.isItemEqual(distinctStack)) {
+                continue;
+            }
+            if (!ItemStack.areItemStackTagsEqual(containedItem, distinctStack)) {
+                continue;
+            }
+            if (getItemCount(distinctStack, containedItems) >= amountWeWouldLike) {
+                result = ItemStackHelper.getAndSplit(containedItems, i, amountWeWouldLike);
+            }
+        }
+
+        return result;
     }
 }

@@ -59,46 +59,62 @@ public class Quiver extends Item {
         PlayerEntity player = (PlayerEntity) entityIn;
 
         if (NbtUtil.getIsDisabled(stack)) {
-            undoQuiverThing(stack, player);
+            undoContainment(stack, player);
         } else {
-            doQuiverThing(stack, player);
+            doContainment(stack, player);
         }
     }
 
-    private static void undoQuiverThing(ItemStack quiverStack, PlayerEntity player) {
+    private static void undoContainment(ItemStack container, PlayerEntity player) {
         PlayerInventory playerInventory = player.inventory;
 
-        NonNullList<ItemStack> quiverItems = NbtUtil.getItems(quiverStack);
-        for(int i = 0; i < quiverItems.size(); i++) {
+        NonNullList<ItemStack> containedItems = NbtUtil.getItems(container);
+        for(int i = 0; i < containedItems.size(); i++) {
             // after removing the stack from the util list, persist the changes.
-            ItemStack takenStack = ItemStackHelper.getAndRemove(quiverItems, i);
-            CompoundNBT tag = quiverStack.getTag();
-            ItemStackHelper.saveAllItems(tag, quiverItems);
-            quiverStack.setTag(tag);
+            ItemStack takenStack = ItemStackHelper.getAndRemove(containedItems, i);
+            CompoundNBT tag = container.getTag();
+            ItemStackHelper.saveAllItems(tag, containedItems);
+            container.setTag(tag);
 
             if (takenStack == ItemStack.EMPTY) {
                 continue;
             }
             if (!playerInventory.addItemStackToInventory(takenStack)) {
-                NbtUtil.addItemStackToContainerItem(quiverStack, takenStack);
+                NbtUtil.addItemStackToContainerItem(container, takenStack);
                 break;
             }
         }
     }
 
-    private static void doQuiverThing(ItemStack quiverStack, PlayerEntity player) {
+    private static void doContainment(ItemStack container, PlayerEntity player) {
         PlayerInventory playerInventory = player.inventory;
 
         for(Item itemToConsume : QUIVER_CONSUMES_THESE) {
             // make sure we respect distinct nbt tags, we do this by
             // getting all items in the player inventory with distint NBTs
-            NonNullList<ItemStack> distinctStacks = ItemUtil.getAllDistinctlyTaggedStacks(playerInventory, itemToConsume);
+            NonNullList<ItemStack> distinctStacks = ItemUtil.getAllDistinctlyTaggedStacks(playerInventory, container, itemToConsume);
 
             for(ItemStack distinctStack : distinctStacks) {
                 while (ItemUtil.getItemCountInInventory(playerInventory, distinctStack) > distinctStack.getMaxStackSize()) {
                     ItemStack stackFound = ItemUtil.getAndRemoveOneStack(playerInventory.mainInventory, distinctStack);
-                    NbtUtil.addItemStackToContainerItem(quiverStack, stackFound);
+                    NbtUtil.addItemStackToContainerItem(container, stackFound);
                 }
+
+                NonNullList<ItemStack> containedItems = NbtUtil.getItems(container);
+                int amountWeWouldLike = distinctStack.getMaxStackSize() - ItemUtil.getItemCountInInventory(playerInventory, distinctStack);
+                if (amountWeWouldLike <= 0) {
+                    continue;
+                }
+                // the opposite should occur for each distinct stack that isn't full when the container item has items in it
+                ItemStack siphonedStack = ItemUtil.siphonStacks(distinctStack, amountWeWouldLike, containedItems);
+                if (!playerInventory.addItemStackToInventory(siphonedStack)) {
+                    NbtUtil.addItemStackToContainerItem(container, siphonedStack);
+                }
+
+                // no matter what just happened, persist the Nbt updates.
+                CompoundNBT tag = container.getTag();
+                ItemStackHelper.saveAllItems(tag, containedItems);
+                container.setTag(tag);
             }
         }
     }
