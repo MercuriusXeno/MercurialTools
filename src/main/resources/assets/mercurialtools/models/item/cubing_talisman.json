@@ -4,6 +4,9 @@
     "layer0": "mercurialtools:item/cubing_talisman"
   },
   "overrides": [
-    { "predicate": { "is_disabled": 1.0 }, "model": "mercurialtools:item/cubing_talisman_disabled" }
+    {
+      "predicate": { "mercurialtools:is_disabled": 1.0 },
+      "model": "mercurialtools:item/cubing_talisman_disabled"
+    }
   ]
 }

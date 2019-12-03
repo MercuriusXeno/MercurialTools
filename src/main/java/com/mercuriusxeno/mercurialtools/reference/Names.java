@@ -1,6 +1,9 @@
 package com.mercuriusxeno.mercurialtools.reference;
 
 public class Names {
+    // common
+    public static final String MOD_ID = "mercurialtools";
+
     // blocks
     public static final String CONDENSING_HOPPER = "condensing_hopper";
     public static final String ENDER_KEYSTONE = "ender_keystone";
@@ -19,4 +22,17 @@ public class Names {
     public static final String SOUL_TOME = "soul_tome";
     public static final String CRYSTAL_COMPASS = "crystal_compass";
     public static final String CUBING_TALISMAN = "cubing_talisman";
+
+    // item features/NBT
+    /*
+     * The case on this matters to the json models. Beware changing it.
+     */
+    public static final String IS_DISABLED = "is_disabled";
+    /*
+     * Please don't change the case of these.
+     * It matches vanilla methods that we can't change.
+     */
+    public static final String ITEMS = "Items";
+    public static final String SLOT = "Slot";
+
 }
