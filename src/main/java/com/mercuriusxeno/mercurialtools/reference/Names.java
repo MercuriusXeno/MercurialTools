@@ -24,6 +24,11 @@ public class Names {
     public static final String CUBING_TALISMAN = "cubing_talisman";
 
     // item features/NBT
+    public static final String ENTITY_ID = "entity_id";
+    public static final String SOUL_TOME_PROGRESS = "soul_tome_progress";
+    public static final String ENTITY_TAG_COMPOUND = "entity_tag_compound";
+    public static final String ENTITY_TYPE = "entity_type";
+
     /*
      * The case on this matters to the json models. Beware changing it.
      */
@@ -33,6 +38,4 @@ public class Names {
      * It matches vanilla methods that we can't change.
      */
     public static final String ITEMS = "Items";
-    public static final String SLOT = "Slot";
-
 }

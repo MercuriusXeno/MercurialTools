@@ -48,6 +48,14 @@ public class PotionBelt extends Item {
             )
     );
 
+    @Override
+    public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
+        if (NbtUtil.getIsDisabled(oldStack) != NbtUtil.getIsDisabled(newStack)) {
+            return true;
+        }
+        return slotChanged;
+    }
+
     /**
      * allows items to add custom lines of information to the mouseover description
      */

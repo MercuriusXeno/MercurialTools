@@ -22,5 +22,6 @@ public class Constants {
     public static final int ENDER_KEYSTONE_FIELD_DEPTH = 1;
 
     public static final int CRYSTAL_COMPASS_RANGE = 16;
-    public static final int ARBITRARILY_LARGE_INVENTORY_SIZE = 32;
+    public static final double SOUL_TOME_RANGE = 8.0D;
+    public static final int SOUL_TOME_PROGRESS_LIMIT = 100;
 }

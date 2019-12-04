@@ -63,6 +63,14 @@ public class Quiver extends Item {
     }
 
     @Override
+    public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
+        if (NbtUtil.getIsDisabled(oldStack) != NbtUtil.getIsDisabled(newStack)) {
+            return true;
+        }
+        return slotChanged;
+    }
+
+    @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
         return ItemUtil.toggleDisable(playerIn, handIn);
     }
