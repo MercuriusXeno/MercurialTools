@@ -1,27 +1,31 @@
 package com.mercuriusxeno.mercurialtools.item;
 
 import com.mercuriusxeno.mercurialtools.MercurialTools;
+import com.mercuriusxeno.mercurialtools.block.ModBlocks;
 import com.mercuriusxeno.mercurialtools.reference.Constants;
 import com.mercuriusxeno.mercurialtools.reference.Names;
 import com.mercuriusxeno.mercurialtools.util.EntityUtil;
 import com.mercuriusxeno.mercurialtools.util.ItemUtil;
 import com.mercuriusxeno.mercurialtools.util.NbtUtil;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ExperienceOrbEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUseContext;
 import net.minecraft.item.UseAction;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.Hand;
+import net.minecraft.tileentity.MobSpawnerTileEntity;
+import net.minecraft.util.*;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -31,6 +35,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Optional;
 
 public class SoulTome extends Item {
     public SoulTome() {
@@ -38,7 +43,6 @@ public class SoulTome extends Item {
                 .maxStackSize(1)
                 .group(MercurialTools.setup.itemGroup)
                 .maxDamage(100));
-
         this.addPropertyOverride(ItemUtil.disabledProperty, ItemUtil.disablingPropertyGetter);
         setRegistryName(Names.SOUL_TOME);
     }
@@ -51,7 +55,7 @@ public class SoulTome extends Item {
         if (!isSoulCaptured(stack)) {
             return;
         }
-        String entityName = getContainedEntityName(stack);
+        String entityName = getEntityLocalizedName(stack);
         tooltip.add(new StringTextComponent(entityName));
     }
 
@@ -86,7 +90,7 @@ public class SoulTome extends Item {
         } else {
             tag = stack.getTag();
         }
-        return tag.contains(Names.ENTITY_TYPE) && tag.contains(Names.SOUL_TOME_PROGRESS);
+        return tag.contains(Names.ENTITY_TRANSLATION_KEY) && tag.contains(Names.SOUL_TOME_PROGRESS);
     }
 
     private boolean isSoulCaptured(ItemStack stack) {
@@ -97,7 +101,7 @@ public class SoulTome extends Item {
             tag = stack.getTag();
         }
 
-        return tag.contains(Names.ENTITY_TYPE)
+        return tag.contains(Names.ENTITY_TRANSLATION_KEY)
                 && tag.getInt(Names.SOUL_TOME_PROGRESS) == Constants.SOUL_TOME_PROGRESS_LIMIT;
     }
 
@@ -130,21 +134,17 @@ public class SoulTome extends Item {
         }
 
         CompoundNBT entityTag = entity.serializeNBT();
-        tag.putString(Names.ENTITY_TYPE, entity.getType().getTranslationKey());
+        tag.putString(Names.ENTITY_TRANSLATION_KEY, entity.getType().getTranslationKey());
         tag.putInt(Names.ENTITY_ID, entity.getEntityId());
-        tag.put(Names.ENTITY_TAG_COMPOUND, entityTag);
+        tag.putString(Names.ENTITY_RESOURCE_LOCATION, entityTag.getString("id"));
         tag.putInt(Names.SOUL_TOME_PROGRESS, 0);
         stack.setTag(tag);
-        System.out.println("Soul captured! " + entity.getType());
         return;
     }
 
     @Override
     public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
-        if (NbtUtil.getIsDisabled(oldStack) != NbtUtil.getIsDisabled(newStack)) {
-            return true;
-        }
-        return slotChanged;
+        return !oldStack.isItemEqual(newStack) || slotChanged;
     }
 
     /**
@@ -255,22 +255,81 @@ public class SoulTome extends Item {
         }
     }
 
-    private String getContainedEntityName(ItemStack stack) {
+    private ResourceLocation getContainedEntityResourceLocation(ItemStack stack) {
+        // you shouldn't be here if you don't have a tag.
+        if (!stack.hasTag()) {
+            return null;
+        }
+
+        CompoundNBT tag = stack.getTag();
+        if (!tag.contains(Names.ENTITY_TRANSLATION_KEY)) {
+            return null;
+        }
+
+        return new ResourceLocation(tag.getString(Names.ENTITY_RESOURCE_LOCATION));
+    }
+
+    private String getContainedEntityTranslationKey(ItemStack stack) {
         // you shouldn't be here if you don't have a tag.
         if (!stack.hasTag()) {
             return "";
         }
 
         CompoundNBT tag = stack.getTag();
-        if (!tag.contains(Names.ENTITY_TYPE)) {
+        if (!tag.contains(Names.ENTITY_TRANSLATION_KEY)) {
             return "";
         }
 
-        String resourceName = tag.getString(Names.ENTITY_TYPE);
+        String resourceName = tag.getString(Names.ENTITY_TRANSLATION_KEY);
+
+        return resourceName;
+    }
+
+    private String getEntityLocalizedName(ItemStack stack) {
+        String resourceName = getContainedEntityTranslationKey(stack);
 
         TranslationTextComponent textComponent = new TranslationTextComponent(resourceName);
 
         return textComponent.getString();
+    }
+
+    @Override
+    public ActionResultType onItemUse(ItemUseContext context) {
+        World world = context.getWorld();
+        if (world.isRemote()) {
+            return ActionResultType.PASS;
+        }
+
+        ItemStack stack = context.getItem();
+        if (!isSoulCaptured(stack)) {
+            return ActionResultType.PASS;
+        }
+        EntityType<?> entityType = getEntityTypeFromResourceLocation(stack).orElse(null);
+        if (entityType == null) {
+            return ActionResultType.PASS;
+        }
+        BlockPos blockPos = context.getPos();
+        BlockState blockState = world.getBlockState(blockPos);
+        if (blockState.getBlock().equals(ModBlocks.SPAWNER_TEMPLATE)) {
+            world.setBlockState(blockPos, Blocks.SPAWNER.getDefaultState(), 0);
+            if (Blocks.SPAWNER.getDefaultState().hasTileEntity()) {
+                Blocks.SPAWNER.getDefaultState().createTileEntity(world).setPos(blockPos);
+                MobSpawnerTileEntity tileEntity = (MobSpawnerTileEntity)world.getTileEntity(blockPos);
+                tileEntity.getSpawnerBaseLogic().setEntityType(entityType);
+                world.notifyBlockUpdate(blockPos, blockState, world.getBlockState(blockPos), 0);
+            }
+        }
+        // destroy the item, it's used up.
+        context.getItem().setDamage(context.getItem().getMaxDamage() - 1);
+        context.getItem().damageItem(1, context.getPlayer(), (entityPlayer) -> {
+            entityPlayer.sendBreakAnimation(context.getHand());
+        });
+        return ActionResultType.SUCCESS;
+    }
+
+    private Optional<EntityType<?>> getEntityTypeFromResourceLocation(ItemStack stack) {
+        ResourceLocation resourceLocation = getContainedEntityResourceLocation(stack);
+        return EntityType.byKey(resourceLocation.toString()); // attempting the fully qualified string to avoid mod mismatches.
     }
 
     private LivingEntity getContainedEntity(World worldIn, ItemStack stack) {
@@ -292,6 +351,4 @@ public class SoulTome extends Item {
         }
         return null;
     }
-
-
 }
