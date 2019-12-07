@@ -24,4 +24,11 @@ public class Constants {
     public static final int CRYSTAL_COMPASS_RANGE = 16;
     public static final double SOUL_TOME_RANGE = 8.0D;
     public static final int SOUL_TOME_PROGRESS_LIMIT = 100;
+
+    public static final double ENDER_VACUUM_RANGE = 8.0D;
+
+    // approximation from the center of a cube to its corner, if the side length is 1 meter
+    // the formula is (x * (Math.sqrt(3)) / 2) where x is the length of a side,
+    // divided by 2 because I want the distance to the center, not the distance to the opposite corner.
+    public static final double UNIT_CUBE_CORNER_DISTANCE_COEFFICIENT = 0.866D;
 }

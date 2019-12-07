@@ -11,6 +11,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -50,7 +51,7 @@ public class MercurialTools
         // Register the processIMC method for modloading
         // FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
         // Register the doClientStuff method for modloading
-        // FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
@@ -62,6 +63,12 @@ public class MercurialTools
         LOGGER.info("Mercurial Tools Setup");
         setup.init();
         proxy.init();
+    }
+
+    //
+    private void doClientStuff(final FMLClientSetupEvent event) {
+        // do something that can only be done on the client
+        // LOGGER.info("Got game settings {}", event.getMinecraftSupplier().get().gameSettings);
     }
 
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -102,13 +109,12 @@ public class MercurialTools
             event.getRegistry().register(new Quiver());
             event.getRegistry().register(new SoulTome());
         }
-    }
 
-//
-//    private void doClientStuff(final FMLClientSetupEvent event) {
-//        // do something that can only be done on the client
-//        // LOGGER.info("Got game settings {}", event.getMinecraftSupplier().get().gameSettings);
-//    }
+        @SubscribeEvent
+        public static void onTileEntityRegistry(final RegistryEvent.Register<TileEntityType<?>> event) {
+            event.getRegistry().register(TileEntityType.Builder.create(EnderVacuumTile::new, ModBlocks.ENDER_VACUUM).build(null).setRegistryName(Names.ENDER_VACUUM));
+        }
+    }
 //
 //    private void enqueueIMC(final InterModEnqueueEvent event)
 //    {

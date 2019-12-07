@@ -1,27 +1,27 @@
-package com.mercuriusxeno.mercurialtools.tileentity;
+package com.mercuriusxeno.mercurialtools.client.render.tileentity;
 
 import com.mercuriusxeno.mercurialtools.block.EnderVacuum;
+import com.mercuriusxeno.mercurialtools.block.EnderVacuumTile;
+import com.mercuriusxeno.mercurialtools.client.render.entity.EnderVacuumModel;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.ShulkerBoxBlock;
-import net.minecraft.client.renderer.entity.ShulkerRenderer;
 import net.minecraft.client.renderer.entity.model.ShulkerModel;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
-import net.minecraft.item.DyeColor;
-import net.minecraft.tileentity.ShulkerBoxTileEntity;
 import net.minecraft.util.Direction;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class EnderVacuumTileEntityRenderer  extends TileEntityRenderer<EnderVacuumTileEntity> {
-    private final ShulkerModel<?> model;
+public class EnderVacuumTileEntityRenderer  extends TileEntityRenderer<EnderVacuumTile> {
+    private final EnderVacuumModel model;
+    public static final ResourceLocation overriddenResourceLocation = new ResourceLocation("mercurialtools:textures/entity/ender_vacuum.png");
 
-    public EnderVacuumTileEntityRenderer(ShulkerModel<?> modelIn) {
+    public EnderVacuumTileEntityRenderer(EnderVacuumModel modelIn) {
         this.model = modelIn;
     }
 
-    public void render(EnderVacuumTileEntity tileEntityIn, double x, double y, double z, float partialTicks, int destroyStage) {
+    public void render(EnderVacuumTile tileEntityIn, double x, double y, double z, float partialTicks, int destroyStage) {
         Direction direction = Direction.UP;
         if (tileEntityIn.hasWorld()) {
             BlockState blockstate = this.getWorld().getBlockState(tileEntityIn.getPos());
@@ -42,7 +42,7 @@ public class EnderVacuumTileEntityRenderer  extends TileEntityRenderer<EnderVacu
             GlStateManager.translatef(0.0625F, 0.0625F, 0.0625F);
             GlStateManager.matrixMode(5888);
         } else {
-            this.bindTexture(ShulkerRenderer.field_204402_a);
+            this.bindTexture(this.overriddenResourceLocation);
         }
 
         GlStateManager.pushMatrix();

@@ -1,5 +1,6 @@
 package com.mercuriusxeno.mercurialtools.block;
 
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.registries.ObjectHolder;
 
 public class ModBlocks {
@@ -11,6 +12,9 @@ public class ModBlocks {
 
     @ObjectHolder("mercurialtools:ender_vacuum")
     public static EnderVacuum ENDER_VACUUM;
+
+    @ObjectHolder("mercurialtools:ender_vacuum")
+    public static TileEntityType<EnderVacuumTile> ENDER_VACUUM_TILE;
 
     @ObjectHolder("mercurialtools:enticing_prism")
     public static EnticingPrism ENTICING_PRISM;

@@ -29,10 +29,14 @@ public class Names {
     public static final String ENTITY_RESOURCE_LOCATION = "entity_resource_location";
     public static final String ENTITY_ID = "entity_id";
 
+    // block features/tile features NBT
+    public static final String TRACKED_ITEM_IDS = "tracked_item_ids";
+
     /*
      * The case on this matters to the json models. Beware changing it.
      */
     public static final String IS_DISABLED = "is_disabled";
+
     /*
      * Please don't change the case of these.
      * It matches vanilla methods that we can't change.

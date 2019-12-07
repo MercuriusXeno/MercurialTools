@@ -1,7 +1,6 @@
 package com.mercuriusxeno.mercurialtools.block;
 
 import com.mercuriusxeno.mercurialtools.reference.Names;
-import com.mercuriusxeno.mercurialtools.tileentity.EnderVacuumTileEntity;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.PushReaction;
@@ -13,7 +12,6 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.state.EnumProperty;
@@ -57,7 +55,7 @@ public class EnderVacuum extends ContainerBlock {
     public static final ResourceLocation resourceLocation = new ResourceLocation("contents");
 
     public TileEntity createNewTileEntity(IBlockReader worldIn) {
-        return new EnderVacuumTileEntity();
+        return new EnderVacuumTile();
     }
 
     public boolean causesSuffocation(BlockState state, IBlockReader worldIn, BlockPos pos) {
@@ -73,6 +71,8 @@ public class EnderVacuum extends ContainerBlock {
      * The type of render function called. MODEL for mixed tesr and static model, MODELBLOCK_ANIMATED for TESR-only,
      * LIQUID for vanilla liquids, INVISIBLE to skip all rendering
      */
+    @OnlyIn(Dist.CLIENT)
+    @Override
     public BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.ENTITYBLOCK_ANIMATED;
     }
@@ -84,11 +84,11 @@ public class EnderVacuum extends ContainerBlock {
             return true;
         } else {
             TileEntity tileentity = worldIn.getTileEntity(pos);
-            if (tileentity instanceof EnderVacuumTileEntity) {
+            if (tileentity instanceof EnderVacuumTile) {
                 Direction direction = state.get(FACING);
-                EnderVacuumTileEntity enderVacuumTileEntity = (EnderVacuumTileEntity)tileentity;
+                EnderVacuumTile enderVacuumTileEntity = (EnderVacuumTile)tileentity;
                 boolean flag;
-                if (enderVacuumTileEntity.getAnimationStatus() == EnderVacuumTileEntity.AnimationStatus.CLOSED) {
+                if (enderVacuumTileEntity.getAnimationStatus() == EnderVacuumTile.AnimationStatus.CLOSED) {
                     AxisAlignedBB axisalignedbb = VoxelShapes.fullCube().getBoundingBox().expand((double)(0.5F * (float)direction.getXOffset()), (double)(0.5F * (float)direction.getYOffset()), (double)(0.5F * (float)direction.getZOffset())).contract((double)direction.getXOffset(), (double)direction.getYOffset(), (double)direction.getZOffset());
                     flag = worldIn.areCollisionShapesEmpty(axisalignedbb.offset(pos.offset(direction)));
                 } else {
@@ -125,8 +125,8 @@ public class EnderVacuum extends ContainerBlock {
      */
     public void onBlockHarvested(World worldIn, BlockPos pos, BlockState state, PlayerEntity player) {
         TileEntity tileentity = worldIn.getTileEntity(pos);
-        if (tileentity instanceof EnderVacuumTileEntity) {
-            EnderVacuumTileEntity enderVacuumTileEntity = (EnderVacuumTileEntity)tileentity;
+        if (tileentity instanceof EnderVacuumTile) {
+            EnderVacuumTile enderVacuumTileEntity = (EnderVacuumTile)tileentity;
             if (!worldIn.isRemote && player.isCreative() && !enderVacuumTileEntity.isEmpty()) {
                 ItemStack itemstack = getItemStack();
                 CompoundNBT compoundnbt = enderVacuumTileEntity.saveToNbt(new CompoundNBT());
@@ -151,8 +151,8 @@ public class EnderVacuum extends ContainerBlock {
 
     public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
         TileEntity tileentity = builder.get(LootParameters.BLOCK_ENTITY);
-        if (tileentity instanceof EnderVacuumTileEntity) {
-            EnderVacuumTileEntity enderVacuumTileEntity = (EnderVacuumTileEntity)tileentity;
+        if (tileentity instanceof EnderVacuumTile) {
+            EnderVacuumTile enderVacuumTileEntity = (EnderVacuumTile)tileentity;
             builder = builder.withDynamicDrop(resourceLocation, (passedResourceLocation, lootContextProvider) -> {
                 for(int i = 0; i < enderVacuumTileEntity.getSizeInventory(); ++i) {
                     lootContextProvider.accept(enderVacuumTileEntity.getStackInSlot(i));
@@ -170,8 +170,8 @@ public class EnderVacuum extends ContainerBlock {
     public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
         if (stack.hasDisplayName()) {
             TileEntity tileentity = worldIn.getTileEntity(pos);
-            if (tileentity instanceof EnderVacuumTileEntity) {
-                ((EnderVacuumTileEntity)tileentity).setCustomName(stack.getDisplayName());
+            if (tileentity instanceof EnderVacuumTile) {
+                ((EnderVacuumTile)tileentity).setCustomName(stack.getDisplayName());
             }
         }
 
@@ -180,7 +180,7 @@ public class EnderVacuum extends ContainerBlock {
     public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
         if (state.getBlock() != newState.getBlock()) {
             TileEntity tileentity = worldIn.getTileEntity(pos);
-            if (tileentity instanceof EnderVacuumTileEntity) {
+            if (tileentity instanceof EnderVacuumTile) {
                 worldIn.updateComparatorOutputLevel(pos, state.getBlock());
             }
 
@@ -229,7 +229,7 @@ public class EnderVacuum extends ContainerBlock {
 
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
         TileEntity tileentity = worldIn.getTileEntity(pos);
-        return tileentity instanceof EnderVacuumTileEntity ? VoxelShapes.create(((EnderVacuumTileEntity)tileentity).getBoundingBox(state)) : VoxelShapes.fullCube();
+        return tileentity instanceof EnderVacuumTile ? VoxelShapes.create(((EnderVacuumTile)tileentity).getBoundingBox(state)) : VoxelShapes.fullCube();
     }
 
     public boolean isSolid(BlockState state) {
@@ -246,7 +246,7 @@ public class EnderVacuum extends ContainerBlock {
 
     public ItemStack getItem(IBlockReader worldIn, BlockPos pos, BlockState state) {
         ItemStack itemstack = super.getItem(worldIn, pos, state);
-        EnderVacuumTileEntity shulkerboxtileentity = (EnderVacuumTileEntity)worldIn.getTileEntity(pos);
+        EnderVacuumTile shulkerboxtileentity = (EnderVacuumTile)worldIn.getTileEntity(pos);
         CompoundNBT compoundnbt = shulkerboxtileentity.saveToNbt(new CompoundNBT());
         if (!compoundnbt.isEmpty()) {
             itemstack.setTagInfo("BlockEntityTag", compoundnbt);

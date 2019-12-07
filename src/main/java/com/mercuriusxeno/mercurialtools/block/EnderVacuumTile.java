@@ -1,14 +1,19 @@
-package com.mercuriusxeno.mercurialtools.tileentity;
+package com.mercuriusxeno.mercurialtools.block;
 
 import com.mercuriusxeno.mercurialtools.block.EnderVacuum;
+import com.mercuriusxeno.mercurialtools.reference.Caching;
+import com.mercuriusxeno.mercurialtools.reference.Constants;
+import com.mercuriusxeno.mercurialtools.reference.Names;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShulkerBoxBlock;
 import net.minecraft.block.material.PushReaction;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MoverType;
+import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.inventory.container.Container;
@@ -16,6 +21,10 @@ import net.minecraft.inventory.container.ShulkerBoxContainer;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
+import net.minecraft.nbt.IntNBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.tileentity.HopperTileEntity;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.LockableLootTileEntity;
 import net.minecraft.tileentity.TileEntityType;
@@ -32,22 +41,27 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.ItemHandlerHelper;
+import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
-public class EnderVacuumTileEntity extends LockableLootTileEntity implements ISidedInventory, ITickableTileEntity {
+public class EnderVacuumTile extends LockableLootTileEntity implements ISidedInventory, ITickableTileEntity {
     private static final int[] SLOTS = IntStream.range(0, 27).toArray();
     private NonNullList<ItemStack> items = NonNullList.withSize(27, ItemStack.EMPTY);
+    private ArrayList<Integer> trackedItemIds = new ArrayList<>();
     private int openCount;
     private AnimationStatus animationStatus = AnimationStatus.CLOSED;
     private float progress;
     private float progressOld;
+    private boolean wasPullingItem = false;
 
-    public EnderVacuumTileEntity() {
-        super(TileEntityType.SHULKER_BOX);
+    public EnderVacuumTile() {
+        super(ModBlocks.ENDER_VACUUM_TILE);
     }
 
     public void tick() {
@@ -55,6 +69,180 @@ public class EnderVacuumTileEntity extends LockableLootTileEntity implements ISi
         if (this.animationStatus == AnimationStatus.OPENING || this.animationStatus == AnimationStatus.CLOSING) {
             this.moveCollidedEntities();
         }
+
+        if (this.getWorld().isRemote()) {
+            return;
+        }
+
+        // do suction if an item is nearby, this is the whole point of a Vacuum chest, isn't it?
+        if (isPullingItem()) {
+            if (this.openCount < 0) {
+                this.openCount = 0;
+            }
+            if (this.openCount == 0) {
+                ++this.openCount;
+            }
+            this.wasPullingItem = true;
+            this.world.addBlockEvent(this.pos, this.getBlockState().getBlock(), 1, this.openCount);
+        } else {
+            if (this.wasPullingItem) {
+                if (this.openCount > 0) {
+                    --this.openCount;
+                }
+                if (this.openCount < 0) {
+                    this.openCount = 0;
+                }
+                this.wasPullingItem = false;
+                this.world.addBlockEvent(this.pos, this.getBlockState().getBlock(), 1, this.openCount);
+            }
+        }
+    }
+
+    private double getDistanceToEntity(Entity e) {
+        return Math.sqrt(e.getDistanceSq(this.getVacuumDestination()));
+    }
+
+    private boolean isPullingItem() {
+        if (this.getWorld() == null) {
+            return false;
+        }
+        AxisAlignedBB tileBox = this.getBoundingBox(this.getBlockState()).offset(getVacuumDestination());
+        // "configurable" block radius determines how far to grab entity items from
+        List<ItemEntity> items = this.getWorld().getEntitiesWithinAABB(ItemEntity.class, tileBox.grow(Constants.ENDER_VACUUM_RANGE), e -> getDistanceToEntity(e) <= Constants.ENDER_VACUUM_RANGE);
+
+        // track items first
+        for(ItemEntity item : items) {
+            if (!trackedItemIds.contains(item.getEntityId())) {
+                trackedItemIds.add(item.getEntityId());
+            }
+        }
+
+        // make sure we're looking at the right items
+        List<ItemEntity> trackedItemEntities = new ArrayList<>();
+        List<Integer> stopTrackingTheseIds = new ArrayList<>();
+        for (Integer trackedItemId : trackedItemIds) {
+            Entity e = this.getWorld().getEntityByID(trackedItemId);
+            if (!(e instanceof ItemEntity)) {
+                stopTrackingTheseIds.add(trackedItemId);
+                continue;
+            }
+            trackedItemEntities.add((ItemEntity) e);
+        }
+
+        for(int i = 0 ; i < stopTrackingTheseIds.size(); i++) {
+            int finalI = i;
+            trackedItemIds.removeIf(t -> t.equals(stopTrackingTheseIds.get(finalI)));
+        }
+
+        boolean isGrabbingItem = false;
+        for (ItemEntity item : trackedItemEntities) {
+            // no clip here weirdly didn't seem to work. trying with null bounding box instead...
+            if (getVacuumDestination().distanceTo(getItemPosition(item)) > Constants.UNIT_CUBE_CORNER_DISTANCE_COEFFICIENT) {
+                item.setBoundingBox(Caching.getEmptyBoundingBox().offset(item.getPositionVec()));
+                item.setNoGravity(true);
+                isGrabbingItem = true;
+                Vec3d vacuumVector = getVacuumVector(item).normalize().scale(0.5D); // slow it down a little
+                item.setVelocity(vacuumVector.x, vacuumVector.y, vacuumVector.z);
+            } else {
+                if (captureItem(this, item)) {
+                    // we don't do anything for now
+                }
+                // bounding box is set organically by Entity.setPosition - I think just stopping the bounding box override puts the bounding box back to defaults.
+                item.setNoGravity(false);
+            }
+        }
+        return isGrabbingItem;
+    }
+
+    public static boolean captureItem(IInventory inventory, ItemEntity itemEntity) {
+        boolean flag = false;
+        ItemStack itemstack = itemEntity.getItem().copy();
+        ItemStack itemstack1 = putStackInInventoryAllSlots((IInventory)null, inventory, itemstack, (Direction)null);
+        if (itemstack1.isEmpty()) {
+            flag = true;
+            itemEntity.remove();
+        } else {
+            itemEntity.setItem(itemstack1);
+        }
+
+        return flag;
+    }
+
+    /**
+     * Attempts to place the passed stack in the inventory, using as many slots as required. Returns leftover items
+     */
+    public static ItemStack putStackInInventoryAllSlots(@Nullable IInventory source, IInventory destination, ItemStack stack, @Nullable Direction direction) {
+        if (destination instanceof ISidedInventory && direction != null) {
+            ISidedInventory isidedinventory = (ISidedInventory)destination;
+            int[] aint = isidedinventory.getSlotsForFace(direction);
+
+            for(int k = 0; k < aint.length && !stack.isEmpty(); ++k) {
+                stack = insertStack(source, destination, stack, aint[k], direction);
+            }
+        } else {
+            int i = destination.getSizeInventory();
+
+            for(int j = 0; j < i && !stack.isEmpty(); ++j) {
+                stack = insertStack(source, destination, stack, j, direction);
+            }
+        }
+
+        return stack;
+    }
+
+    /**
+     * Can this hopper insert the specified item from the specified slot on the specified side?
+     */
+    private static boolean canInsertItemInSlot(IInventory inventoryIn, ItemStack stack, int index, @Nullable Direction side) {
+        if (!inventoryIn.isItemValidForSlot(index, stack)) {
+            return false;
+        } else {
+            return !(inventoryIn instanceof ISidedInventory) || ((ISidedInventory)inventoryIn).canInsertItem(index, stack, side);
+        }
+    }
+
+    private static boolean canCombine(ItemStack stack1, ItemStack stack2) {
+        if (stack1.getItem() != stack2.getItem()) {
+            return false;
+        } else if (stack1.getDamage() != stack2.getDamage()) {
+            return false;
+        } else if (stack1.getCount() > stack1.getMaxStackSize()) {
+            return false;
+        } else {
+            return ItemStack.areItemStackTagsEqual(stack1, stack2);
+        }
+    }
+
+    /**
+     * Insert the specified stack to the specified inventory and return any leftover items
+     */
+    private static ItemStack insertStack(@Nullable IInventory source, IInventory destination, ItemStack stack, int index, @Nullable Direction direction) {
+        ItemStack itemstack = destination.getStackInSlot(index);
+        if (canInsertItemInSlot(destination, stack, index, direction)) {
+            if (itemstack.isEmpty()) {
+                destination.setInventorySlotContents(index, stack);
+                stack = ItemStack.EMPTY;
+            } else if (canCombine(itemstack, stack)) {
+                int i = stack.getMaxStackSize() - itemstack.getCount();
+                int j = Math.min(stack.getCount(), i);
+                stack.shrink(j);
+                itemstack.grow(j);
+            }
+        }
+
+        return stack;
+    }
+
+    private Vec3d getVacuumDestination() {
+        return new Vec3d (this.getPos().getX() + 0.5D, this.getPos().getY() + 0.5D, this.getPos().getZ() + 0.5D);
+    }
+    
+    private Vec3d getVacuumVector(ItemEntity itemEntity) {
+        return getVacuumDestination().subtract(getItemPosition(itemEntity));
+    }
+
+    private Vec3d getItemPosition(ItemEntity itemEntity) {
+        return new Vec3d(itemEntity.posX, itemEntity.posY, itemEntity.posZ);
     }
 
     protected void updateAnimation() {
@@ -113,6 +301,10 @@ public class EnderVacuumTileEntity extends LockableLootTileEntity implements ISi
             if (!list.isEmpty()) {
                 for(int i = 0; i < list.size(); ++i) {
                     Entity entity = list.get(i);
+                    // this is a special exception for item entities, because they look goofy when we push them while we're vacuuming
+                    if (entity instanceof ItemEntity) {
+                        continue;
+                    }
                     if (entity.getPushReaction() != PushReaction.IGNORE) {
                         double d0 = 0.0D;
                         double d1 = 0.0D;
@@ -232,13 +424,27 @@ public class EnderVacuumTileEntity extends LockableLootTileEntity implements ISi
         if (!this.checkLootAndRead(compound) && compound.contains("Items", 9)) {
             ItemStackHelper.loadAllItems(compound, this.items);
         }
+        if (!compound.contains(Names.TRACKED_ITEM_IDS)) {
+            return;
+        }
+        ListNBT trackedIdNbt = compound.getList(Names.TRACKED_ITEM_IDS, 3); // list of ints;
+        this.trackedItemIds.clear();
+        for(int i = 0; i < trackedIdNbt.size(); i++) {
+            int trackedId = trackedIdNbt.getInt(i);
+            this.trackedItemIds.add(trackedId);
+        }
     }
 
     public CompoundNBT saveToNbt(CompoundNBT compound) {
         if (!this.checkLootAndWrite(compound)) {
             ItemStackHelper.saveAllItems(compound, this.items, false);
         }
-
+        ListNBT trackedIdNbt = new ListNBT();
+        for (Integer trackedItemId : trackedItemIds) {
+            IntNBT trackedId = new IntNBT(trackedItemId);
+            trackedIdNbt.add(trackedId);
+        }
+        compound.put(Names.TRACKED_ITEM_IDS, trackedIdNbt);
         return compound;
     }
 
@@ -284,6 +490,14 @@ public class EnderVacuumTileEntity extends LockableLootTileEntity implements ISi
 
     protected Container createMenu(int id, PlayerInventory player) {
         return new ShulkerBoxContainer(id, player, this);
+    }
+
+    private IItemHandler itemHandler = null;
+    protected IItemHandler getItemHandler() {
+        if (itemHandler == null) {
+            itemHandler = createUnSidedHandler();
+        }
+        return itemHandler;
     }
 
     @Override
