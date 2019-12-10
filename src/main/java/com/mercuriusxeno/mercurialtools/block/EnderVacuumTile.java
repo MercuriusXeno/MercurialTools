@@ -1,12 +1,9 @@
 package com.mercuriusxeno.mercurialtools.block;
 
-import com.mercuriusxeno.mercurialtools.block.EnderVacuum;
-import com.mercuriusxeno.mercurialtools.reference.Caching;
 import com.mercuriusxeno.mercurialtools.reference.Constants;
 import com.mercuriusxeno.mercurialtools.reference.Names;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.ShulkerBoxBlock;
 import net.minecraft.block.material.PushReaction;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MoverType;
@@ -18,16 +15,12 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ShulkerBoxContainer;
-import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.IntNBT;
 import net.minecraft.nbt.ListNBT;
-import net.minecraft.tileentity.HopperTileEntity;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.LockableLootTileEntity;
-import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
@@ -38,11 +31,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemHandlerHelper;
-import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
 
 import javax.annotation.Nullable;
@@ -138,7 +127,7 @@ public class EnderVacuumTile extends LockableLootTileEntity implements ISidedInv
         for (ItemEntity item : trackedItemEntities) {
             // no clip here weirdly didn't seem to work. trying with null bounding box instead...
             if (getVacuumDestination().distanceTo(getItemPosition(item)) > Constants.UNIT_CUBE_CORNER_DISTANCE_COEFFICIENT) {
-                item.setBoundingBox(Caching.getEmptyBoundingBox().offset(item.getPositionVec()));
+                item.setBoundingBox(Constants.EMPTY_BOUNDING_BOX.offset(item.getPositionVec()));
                 item.setNoGravity(true);
                 isGrabbingItem = true;
                 Vec3d vacuumVector = getVacuumVector(item).normalize().scale(0.5D); // slow it down a little
@@ -157,7 +146,7 @@ public class EnderVacuumTile extends LockableLootTileEntity implements ISidedInv
     public static boolean captureItem(IInventory inventory, ItemEntity itemEntity) {
         boolean flag = false;
         ItemStack itemstack = itemEntity.getItem().copy();
-        ItemStack itemstack1 = putStackInInventoryAllSlots((IInventory)null, inventory, itemstack, (Direction)null);
+        ItemStack itemstack1 = putStackInInventoryAllSlots(null, inventory, itemstack, null);
         if (itemstack1.isEmpty()) {
             flag = true;
             itemEntity.remove();
@@ -190,9 +179,6 @@ public class EnderVacuumTile extends LockableLootTileEntity implements ISidedInv
         return stack;
     }
 
-    /**
-     * Can this hopper insert the specified item from the specified slot on the specified side?
-     */
     private static boolean canInsertItemInSlot(IInventory inventoryIn, ItemStack stack, int index, @Nullable Direction side) {
         if (!inventoryIn.isItemValidForSlot(index, stack)) {
             return false;
@@ -402,7 +388,6 @@ public class EnderVacuumTile extends LockableLootTileEntity implements ISidedInv
                 this.world.playSound(null, this.pos, SoundEvents.BLOCK_SHULKER_BOX_CLOSE, SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F + 0.9F);
             }
         }
-
     }
 
     protected ITextComponent getDefaultName() {
@@ -490,14 +475,6 @@ public class EnderVacuumTile extends LockableLootTileEntity implements ISidedInv
 
     protected Container createMenu(int id, PlayerInventory player) {
         return new ShulkerBoxContainer(id, player, this);
-    }
-
-    private IItemHandler itemHandler = null;
-    protected IItemHandler getItemHandler() {
-        if (itemHandler == null) {
-            itemHandler = createUnSidedHandler();
-        }
-        return itemHandler;
     }
 
     @Override

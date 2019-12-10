@@ -1,7 +1,14 @@
 package com.mercuriusxeno.mercurialtools.reference;
 
+import net.minecraft.item.Item;
+import net.minecraft.item.Items;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.util.Direction;
+import net.minecraft.util.math.AxisAlignedBB;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Constants {
     // interloper death field
@@ -31,4 +38,8 @@ public class Constants {
     // the formula is (x * (Math.sqrt(3)) / 2) where x is the length of a side,
     // divided by 2 because I want the distance to the center, not the distance to the opposite corner.
     public static final double UNIT_CUBE_CORNER_DISTANCE_COEFFICIENT = 0.866D;
+    public static final AxisAlignedBB EMPTY_BOUNDING_BOX = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D);
+
+    // network packet Ids, ordered arbitrarily as they're created.
+    public static final int SOUL_TOME_MESSAGE = 0;
 }

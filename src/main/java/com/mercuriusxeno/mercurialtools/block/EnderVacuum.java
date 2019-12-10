@@ -97,7 +97,6 @@ public class EnderVacuum extends ContainerBlock {
 
                 if (flag) {
                     player.openContainer(enderVacuumTileEntity);
-                    player.addStat(Stats.OPEN_SHULKER_BOX);
                 }
 
                 return true;

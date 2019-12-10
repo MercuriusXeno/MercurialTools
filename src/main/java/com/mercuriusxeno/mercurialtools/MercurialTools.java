@@ -112,7 +112,9 @@ public class MercurialTools
 
         @SubscribeEvent
         public static void onTileEntityRegistry(final RegistryEvent.Register<TileEntityType<?>> event) {
+            event.getRegistry().register(TileEntityType.Builder.create(CondensingHopperTile::new, ModBlocks.CONDENSING_HOPPER).build(null).setRegistryName(Names.CONDENSING_HOPPER));
             event.getRegistry().register(TileEntityType.Builder.create(EnderVacuumTile::new, ModBlocks.ENDER_VACUUM).build(null).setRegistryName(Names.ENDER_VACUUM));
+            event.getRegistry().register(TileEntityType.Builder.create(ExpandingHopperTile::new, ModBlocks.EXPANDING_HOPPER).build(null).setRegistryName(Names.EXPANDING_HOPPER));
         }
     }
 //

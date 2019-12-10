@@ -24,7 +24,6 @@ public class Names {
     public static final String CUBING_TALISMAN = "cubing_talisman";
 
     // item features/NBT
-    public static final String SOUL_TOME_PROGRESS = "soul_tome_progress";
     public static final String ENTITY_TRANSLATION_KEY = "entity_type";
     public static final String ENTITY_RESOURCE_LOCATION = "entity_resource_location";
     public static final String ENTITY_ID = "entity_id";

@@ -7,6 +7,9 @@ public class ModBlocks {
     @ObjectHolder("mercurialtools:condensing_hopper")
     public static CondensingHopper CONDENSING_HOPPER;
 
+    @ObjectHolder("mercurialtools:condensing_hopper")
+    public static TileEntityType<CondensingHopperTile> CONDENSING_HOPPER_TILE;
+
     @ObjectHolder("mercurialtools:ender_keystone")
     public static EnderKeystone ENDER_KEYSTONE;
 
@@ -21,6 +24,9 @@ public class ModBlocks {
 
     @ObjectHolder("mercurialtools:expanding_hopper")
     public static ExpandingHopper EXPANDING_HOPPER;
+
+    @ObjectHolder("mercurialtools:expanding_hopper")
+    public static TileEntityType<ExpandingHopperTile> EXPANDING_HOPPER_TILE;
 
     @ObjectHolder("mercurialtools:growth_pulser")
     public static GrowthPulser GROWTH_PULSER;
