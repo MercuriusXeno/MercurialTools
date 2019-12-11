@@ -1,0 +1,16 @@
+{
+  "name": "item.mercurialtools.moderating_geode",
+  "category": "items",
+  "icon": "mercurialtools:moderating_geode",
+  "pages":[
+    {
+      "type": "text",
+      "text": "item.mercurialtools.moderating_geode_description"
+    },
+    {
+      "type": "crafting",
+      "recipe": "mercurialtools:moderating_geode",
+      "text": "item.mercurialtools.moderating_geode_description_extra"
+    }
+  ]
+}

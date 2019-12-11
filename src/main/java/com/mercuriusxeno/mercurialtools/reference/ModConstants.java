@@ -10,9 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Constants {
+public class ModConstants {
     // interloper death field
-    public static final int INTERLOPER_UPDATE_COOLDOWN = 4;
     public static final int INTERLOPER_OFFSET_HEIGHT = 0;
     public static final int INTERLOPER_FIELD_HEIGHT = 5;
     public static final int INTERLOPER_OFFSET_WIDTH = 0;
@@ -20,17 +19,19 @@ public class Constants {
     public static final int INTERLOPER_OFFSET_DEPTH = 0;
     public static final int INTERLOPER_FIELD_DEPTH = 9;
 
-    public static final int ENDER_KEYSTONE_UPDATE_COOLDOWN = 1;
     public static final int ENDER_KEYSTONE_OFFSET_HEIGHT = 0;
     public static final int ENDER_KEYSTONE_FIELD_HEIGHT = 1;
     public static final int ENDER_KEYSTONE_OFFSET_WIDTH = 0;
     public static final int ENDER_KEYSTONE_FIELD_WIDTH = 1;
-    public static final int ENDER_KEYSTONE_OFFSET_DEPTH = 1;
+    public static final int ENDER_KEYSTONE_OFFSET_DEPTH = 0;
     public static final int ENDER_KEYSTONE_FIELD_DEPTH = 1;
 
+    public static final double ENDER_KEYSTONE_WARP_FACTOR = 32D;
+    public static final double ENDER_KEYSTONE_WARP_FACTOR_DAMPENED_I = ENDER_KEYSTONE_WARP_FACTOR / 2D;
+    public static final double ENDER_KEYSTONE_WARP_FACTOR_DAMPENED_II = ENDER_KEYSTONE_WARP_FACTOR_DAMPENED_I / 2D;
+    public static final double ENDER_KEYSTONE_WARP_FACTOR_DAMPENED_III = ENDER_KEYSTONE_WARP_FACTOR_DAMPENED_II / 2D;
+
     public static final int CRYSTAL_COMPASS_RANGE = 16;
-    public static final double SOUL_TOME_RANGE = 8.0D;
-    public static final int SOUL_TOME_PROGRESS_LIMIT = 100;
 
     public static final double ENDER_VACUUM_RANGE = 8.0D;
 
@@ -40,6 +41,5 @@ public class Constants {
     public static final double UNIT_CUBE_CORNER_DISTANCE_COEFFICIENT = 0.866D;
     public static final AxisAlignedBB EMPTY_BOUNDING_BOX = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D);
 
-    // network packet Ids, ordered arbitrarily as they're created.
-    public static final int SOUL_TOME_MESSAGE = 0;
+    public static final long GROWTH_PULSER_CYCLE_TIME = 200;
 }

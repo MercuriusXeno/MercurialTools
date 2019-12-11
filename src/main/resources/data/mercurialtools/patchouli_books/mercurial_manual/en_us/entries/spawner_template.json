@@ -1,0 +1,16 @@
+{
+  "name": "block.mercurialtools.spawner_template",
+  "category": "blocks",
+  "icon": "mercurialtools:spawner_template",
+  "pages":[
+    {
+      "type": "text",
+      "text": "block.mercurialtools.spawner_template_description"
+    },
+    {
+      "type": "crafting",
+      "recipe": "mercurialtools:spawner_template",
+      "text": "block.mercurialtools.spawner_template_description_extra"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "name": "item.mercurialtools.mercurial_blend",
+  "category": "items",
+  "icon": "mercurialtools:mercurial_blend",
+  "pages":[
+    {
+      "type": "text",
+      "text": "item.mercurialtools.mercurial_blend_description"
+    },
+    {
+      "type": "crafting",
+      "recipe": "mercurialtools:mercurial_blend",
+      "text": "item.mercurialtools.mercurial_blend_description_extra"
+    }
+  ]
+}

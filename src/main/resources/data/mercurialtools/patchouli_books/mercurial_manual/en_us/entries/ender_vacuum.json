@@ -1,0 +1,16 @@
+{
+  "name": "block.mercurialtools.ender_vacuum",
+  "category": "blocks",
+  "icon": "mercurialtools:ender_vacuum",
+  "pages":[
+    {
+      "type": "text",
+      "text": "block.mercurialtools.ender_vacuum_description"
+    },
+    {
+      "type": "crafting",
+      "recipe": "mercurialtools:ender_vacuum",
+      "text": "block.mercurialtools.ender_vacuum_description_extra"
+    }
+  ]
+}

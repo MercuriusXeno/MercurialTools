@@ -2,6 +2,9 @@ package com.mercuriusxeno.mercurialtools.item;
 
 import com.mercuriusxeno.mercurialtools.MercurialTools;
 import com.mercuriusxeno.mercurialtools.reference.Names;
+import com.mercuriusxeno.mercurialtools.setup.ModSetup;
+import com.mercuriusxeno.mercurialtools.transmutation.TransmutationRecipes;
+import com.mercuriusxeno.mercurialtools.util.ItemPair;
 import com.mercuriusxeno.mercurialtools.util.ItemUtil;
 import com.mercuriusxeno.mercurialtools.util.NbtUtil;
 import net.minecraft.block.Blocks;
@@ -24,24 +27,6 @@ public class CubingTalisman extends Item {
         this.addPropertyOverride(ItemUtil.disabledProperty, ItemUtil.disablingPropertyGetter);
         setRegistryName(Names.CUBING_TALISMAN);
     }
-
-    public static final ArrayList<Tuple<Item, Item>> CUBING_OBJECT_NAME_PAIRS = new ArrayList<>(
-      Arrays.asList(
-
-              new Tuple<>(Items.LAPIS_LAZULI, Blocks.LAPIS_BLOCK.asItem()),
-              new Tuple<>(Items.REDSTONE, Blocks.REDSTONE_BLOCK.asItem()),
-              new Tuple<>(Items.COAL, Blocks.COAL_BLOCK.asItem()),
-              new Tuple<>(Items.DIAMOND, Blocks.DIAMOND_BLOCK.asItem()),
-              new Tuple<>(Items.EMERALD, Blocks.EMERALD_BLOCK.asItem()),
-              new Tuple<>(Items.IRON_INGOT, Blocks.IRON_BLOCK.asItem()),
-              new Tuple<>(Items.GOLD_INGOT, Blocks.GOLD_BLOCK.asItem()),
-              new Tuple<>(Items.DRIED_KELP, Blocks.DRIED_KELP_BLOCK.asItem()),
-              new Tuple<>(Items.WHEAT, Blocks.HAY_BLOCK.asItem()),
-              new Tuple<>(Items.SLIME_BALL, Blocks.SLIME_BLOCK.asItem()),
-              new Tuple<>(Items.NETHER_WART, Blocks.NETHER_WART_BLOCK.asItem()),
-              new Tuple<>(Items.BONE_MEAL, Blocks.BONE_BLOCK.asItem())
-      )
-    );
 
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
@@ -74,15 +59,15 @@ public class CubingTalisman extends Item {
     private void doCubingEffect(PlayerEntity player) {
         PlayerInventory playerInventory = player.inventory;
 
-        for(Tuple<Item, Item> cubingPair : CUBING_OBJECT_NAME_PAIRS) {
-            ItemStack blockItemStack = new ItemStack(cubingPair.getB());
-            ItemStack singleItemStack = new ItemStack(cubingPair.getA());
-            int blockItemTotal = ItemUtil.getItemCount(blockItemStack, playerInventory.mainInventory) * 9;
+        for(ItemPair cubingPair : ModSetup.transmutationRecipes.CUBING_INPUT_MAPPINGS) {
+            ItemStack singleItemStack = new ItemStack(cubingPair.item1);
+            ItemStack blockItemStack = new ItemStack(cubingPair.item2);
             int singletonItemTotal = ItemUtil.getItemCount(singleItemStack, playerInventory.mainInventory);
+            int blockItemTotal = ItemUtil.getItemCount(blockItemStack, playerInventory.mainInventory) * 9;
 
             int itemTotal = blockItemTotal + singletonItemTotal;
-            // player has enough of the item in their inventory to justify
 
+            // player has enough of the item in their inventory to justify cubing
             // scan through the list of objects which can be "cubed", and target them if their totals are over 64.
             if (itemTotal > 64 && singletonItemTotal >= 9) {
                 while (singletonItemTotal >= 9) {
@@ -93,7 +78,7 @@ public class CubingTalisman extends Item {
         }
     }
 
-    private void replaceNineSingletonsWithOneBlock(Tuple<Item, Item> cubingPair, PlayerInventory playerInventory) {
+    private void replaceNineSingletonsWithOneBlock(ItemPair cubingPair, PlayerInventory playerInventory) {
         int itemsToRemove = 9;
         for(int i = 0; i < playerInventory.mainInventory.size(); i++) {
             ItemStack playerItem = playerInventory.mainInventory.get(i);
@@ -107,12 +92,12 @@ public class CubingTalisman extends Item {
                 break;
             }
         }
-        Item itemToAdd = ForgeRegistries.ITEMS.getValue(ResourceLocation.create(String.format("minecraft:%s", cubingPair.getB()), ':')).getItem();
+        Item itemToAdd = cubingPair.item2;
         playerInventory.addItemStackToInventory(new ItemStack(itemToAdd, 1));
     }
 
-    private boolean isCubingItem(ItemStack playerItem, Tuple<Item, Item> cubingPair, boolean isCountingSingletonItemsOnly) {
-        return playerItem.getItem().equals(cubingPair.getA())
-                || (!isCountingSingletonItemsOnly && playerItem.getItem().equals(cubingPair.getB()));
+    private boolean isCubingItem(ItemStack playerItem, ItemPair cubingPair, boolean isCountingSingletonItemsOnly) {
+        return playerItem.getItem().equals(cubingPair.item1)
+                || (!isCountingSingletonItemsOnly && playerItem.getItem().equals(cubingPair.item2));
     }
 }

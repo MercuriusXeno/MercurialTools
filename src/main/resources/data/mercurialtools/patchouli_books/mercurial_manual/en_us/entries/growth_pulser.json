@@ -1,0 +1,16 @@
+{
+  "name": "block.mercurialtools.growth_pulser",
+  "category": "blocks",
+  "icon": "mercurialtools:growth_pulser",
+  "pages":[
+    {
+      "type": "text",
+      "text": "block.mercurialtools.growth_pulser_description"
+    },
+    {
+      "type": "crafting",
+      "recipe": "mercurialtools:growth_pulser",
+      "text": "block.mercurialtools.growth_pulser_description_extra"
+    }
+  ]
+}

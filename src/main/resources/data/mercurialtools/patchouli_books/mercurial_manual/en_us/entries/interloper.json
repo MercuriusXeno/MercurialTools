@@ -1,0 +1,16 @@
+{
+  "name": "block.mercurialtools.interloper",
+  "category": "blocks",
+  "icon": "mercurialtools:interloper",
+  "pages":[
+    {
+      "type": "text",
+      "text": "block.mercurialtools.interloper_description"
+    },
+    {
+      "type": "crafting",
+      "recipe": "mercurialtools:interloper",
+      "text": "block.mercurialtools.interloper_description_extra"
+    }
+  ]
+}

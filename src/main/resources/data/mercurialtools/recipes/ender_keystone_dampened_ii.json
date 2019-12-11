@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "c  ",
+    "k  ",
+    "   "
+  ],
+  "key": {
+    "c": {
+      "tag": "minecraft:white_carpet"
+    },
+    "k": {
+      "item": "mercurialtools:ender_keystone_dampened_i"
+    }
+  },
+  "result": {
+    "item": "mercurialtools:ender_keystone_dampened_ii"
+  }
+}

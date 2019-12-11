@@ -2,28 +2,18 @@ package com.mercuriusxeno.mercurialtools.item;
 
 import com.mercuriusxeno.mercurialtools.MercurialTools;
 import com.mercuriusxeno.mercurialtools.block.ModBlocks;
-import com.mercuriusxeno.mercurialtools.reference.Constants;
 import com.mercuriusxeno.mercurialtools.reference.Names;
-import com.mercuriusxeno.mercurialtools.util.EntityUtil;
 import com.mercuriusxeno.mercurialtools.util.ItemUtil;
-import com.mercuriusxeno.mercurialtools.util.NbtUtil;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.item.ExperienceOrbEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
-import net.minecraft.item.UseAction;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.particles.ParticleTypes;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
 import net.minecraft.tileentity.MobSpawnerTileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
@@ -37,7 +27,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Optional;
 
 public class SoulTome extends Item {
     public SoulTome() {

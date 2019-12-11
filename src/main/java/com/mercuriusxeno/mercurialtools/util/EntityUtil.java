@@ -1,16 +1,10 @@
 package com.mercuriusxeno.mercurialtools.util;
 
-import com.mercuriusxeno.mercurialtools.reference.Constants;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityPredicate;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class EntityUtil {
     public static LivingEntity getClosestEntityToPlayer(World worldIn, PlayerEntity playerIn, double radius) {

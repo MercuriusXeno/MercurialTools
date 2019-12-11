@@ -1,0 +1,16 @@
+{
+  "name": "item.mercurialtools.crystal_compass",
+  "category": "items",
+  "icon": "mercurialtools:crystal_compass",
+  "pages":[
+    {
+      "type": "text",
+      "text": "item.mercurialtools.crystal_compass_description"
+    },
+    {
+      "type": "crafting",
+      "recipe": "mercurialtools:crystal_compass",
+      "text": "item.mercurialtools.crystal_compass_description_extra"
+    }
+  ]
+}

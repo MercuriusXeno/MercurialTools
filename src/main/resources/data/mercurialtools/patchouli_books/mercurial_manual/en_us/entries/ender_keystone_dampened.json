@@ -1,0 +1,16 @@
+{
+  "name": "block.mercurialtools.ender_keystone_dampened_i",
+  "category": "blocks",
+  "icon": "mercurialtools:ender_keystone_dampened_i",
+  "pages":[
+    {
+      "type": "text",
+      "text": "block.mercurialtools.ender_keystone_dampened_description"
+    },
+    {
+      "type": "crafting",
+      "recipe": "mercurialtools:ender_keystone_dampened_i",
+      "recipe2": "mercurialtools:ender_keystone_dampened_u"
+    }
+  ]
+}

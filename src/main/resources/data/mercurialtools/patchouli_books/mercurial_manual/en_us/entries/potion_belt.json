@@ -1,0 +1,16 @@
+{
+  "name": "item.mercurialtools.potion_belt",
+  "category": "items",
+  "icon": "mercurialtools:potion_belt",
+  "pages":[
+    {
+      "type": "text",
+      "text": "item.mercurialtools.potion_belt_description"
+    },
+    {
+      "type": "crafting",
+      "recipe": "mercurialtools:potion_belt",
+      "text": "item.mercurialtools.potion_belt_description_extra"
+    }
+  ]
+}

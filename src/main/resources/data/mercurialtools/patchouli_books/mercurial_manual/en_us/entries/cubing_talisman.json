@@ -1,0 +1,16 @@
+{
+  "name": "item.mercurialtools.cubing_talisman",
+  "category": "items",
+  "icon": "mercurialtools:cubing_talisman",
+  "pages":[
+    {
+      "type": "text",
+      "text": "item.mercurialtools.cubing_talisman_description"
+    },
+    {
+      "type": "crafting",
+      "recipe": "mercurialtools:cubing_talisman",
+      "text": "item.mercurialtools.cubing_talisman_description_extra"
+    }
+  ]
+}

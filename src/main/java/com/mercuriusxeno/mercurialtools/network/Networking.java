@@ -1,11 +1,9 @@
 package com.mercuriusxeno.mercurialtools.network;
 
-import com.mercuriusxeno.mercurialtools.reference.Constants;
 import com.mercuriusxeno.mercurialtools.reference.Names;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
-import org.lwjgl.system.windows.MSG;
 
 public class Networking {
     private static final String PROTOCOL_VERSION = "1";

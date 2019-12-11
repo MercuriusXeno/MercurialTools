@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "f  ",
+    "k  ",
+    "   "
+  ],
+  "key": {
+    "f": {
+      "tag": "minecraft:flint"
+    },
+    "k": {
+      "item": "mercurialtools:ender_keystone_dampened_i"
+    }
+  },
+  "result": {
+    "item": "mercurialtools:ender_keystone"
+  }
+}

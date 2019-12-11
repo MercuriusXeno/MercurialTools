@@ -1,7 +1,7 @@
 package com.mercuriusxeno.mercurialtools.item;
 
 import com.mercuriusxeno.mercurialtools.MercurialTools;
-import com.mercuriusxeno.mercurialtools.reference.Constants;
+import com.mercuriusxeno.mercurialtools.reference.ModConstants;
 import com.mercuriusxeno.mercurialtools.reference.Names;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
@@ -19,7 +19,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
-import java.io.Console;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -151,9 +150,9 @@ public class CrystalCompass extends Item {
                 BlockPos closestBlockPos = null;
                 double closestDistanceSq = Double.MAX_VALUE;
 
-                for(int x = 0; x <= Constants.CRYSTAL_COMPASS_RANGE; x++) {
-                    for(int y = 0; y <= Constants.CRYSTAL_COMPASS_RANGE; y++) {
-                        for (int z = 0; z <= Constants.CRYSTAL_COMPASS_RANGE; z++) {
+                for(int x = 0; x <= ModConstants.CRYSTAL_COMPASS_RANGE; x++) {
+                    for(int y = 0; y <= ModConstants.CRYSTAL_COMPASS_RANGE; y++) {
+                        for (int z = 0; z <= ModConstants.CRYSTAL_COMPASS_RANGE; z++) {
                             double distance = usingEntity.getDistanceSq(posX + x, posY + y, posZ + z);
                             if (distance > closestDistanceSq) {
                                 continue;

@@ -54,6 +54,19 @@ public class EnderVacuum extends ContainerBlock {
     public static final EnumProperty<Direction> FACING = DirectionalBlock.FACING;
     public static final ResourceLocation resourceLocation = new ResourceLocation("contents");
 
+    @Override
+    public boolean hasTileEntity(BlockState state) {
+        return state.getBlock().equals(this);
+    }
+
+    @Nullable
+    @Override
+    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
+        return state.getBlock().equals(this) ? new EnderVacuumTile() : null;
+    }
+
+    @Nullable
+    @Override
     public TileEntity createNewTileEntity(IBlockReader worldIn) {
         return new EnderVacuumTile();
     }
@@ -137,7 +150,7 @@ public class EnderVacuum extends ContainerBlock {
                     itemstack.setDisplayName(enderVacuumTileEntity.getCustomName());
                 }
 
-                ItemEntity itementity = new ItemEntity(worldIn, (double)pos.getX(), (double)pos.getY(), (double)pos.getZ(), itemstack);
+                ItemEntity itementity = new ItemEntity(worldIn, pos.getX(), pos.getY(), pos.getZ(), itemstack);
                 itementity.setDefaultPickupDelay();
                 worldIn.addEntity(itementity);
             } else {

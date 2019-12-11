@@ -1,0 +1,16 @@
+{
+  "name": "item.mercurialtools.soul_tome",
+  "category": "items",
+  "icon": "mercurialtools:soul_tome",
+  "pages":[
+    {
+      "type": "text",
+      "text": "item.mercurialtools.soul_tome_description"
+    },
+    {
+      "type": "crafting",
+      "recipe": "mercurialtools:soul_tome",
+      "text": "item.mercurialtools.soul_tome_description_extra"
+    }
+  ]
+}

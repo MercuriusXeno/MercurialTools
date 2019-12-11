@@ -1,0 +1,115 @@
+{
+  "components": [
+    {
+      "type": "header",
+      "text": "mercurialtools.condensing_recipes",
+      "x": -1,
+      "y": -1
+    },
+    {
+      "type": "separator",
+      "x": -1,
+      "y": -1
+    }
+  ],
+  "include": [
+    {
+      "template": "transmute_inverted",
+      "as": "t1",
+      "using": {},
+      "x": 0,
+      "y": 18
+    },
+    {
+      "template": "transmute_inverted",
+      "as": "t2",
+      "using": {},
+      "x": 62,
+      "y": 18
+    },
+    {
+      "template": "transmute_inverted",
+      "as": "t3",
+      "using": {},
+      "x": 0,
+      "y": 35
+    },
+    {
+      "template": "transmute_inverted",
+      "as": "t4",
+      "using": {},
+      "x": 62,
+      "y": 35
+    },
+    {
+      "template": "transmute_inverted",
+      "as": "t5",
+      "using": {},
+      "x": 0,
+      "y": 52
+    },
+    {
+      "template": "transmute_inverted",
+      "as": "t6",
+      "using": {},
+      "x": 62,
+      "y": 52
+    },
+    {
+      "template": "transmute_inverted",
+      "as": "t7",
+      "using": {},
+      "x": 0,
+      "y": 69
+    },
+    {
+      "template": "transmute_inverted",
+      "as": "t8",
+      "using": {},
+      "x": 62,
+      "y": 69
+    },
+    {
+      "template": "transmute_inverted",
+      "as": "t9",
+      "using": {},
+      "x": 0,
+      "y": 86
+    },
+    {
+      "template": "transmute_inverted",
+      "as": "t10",
+      "using": {},
+      "x": 62,
+      "y": 86
+    },
+    {
+      "template": "transmute_inverted",
+      "as": "t11",
+      "using": {},
+      "x": 0,
+      "y": 103
+    },
+    {
+      "template": "transmute_inverted",
+      "as": "t12",
+      "using": {},
+      "x": 62,
+      "y": 103
+    },
+    {
+      "template": "transmute_inverted",
+      "as": "t13",
+      "using": {},
+      "x": 0,
+      "y": 120
+    },
+    {
+      "template": "transmute_inverted",
+      "as": "t14",
+      "using": {},
+      "x": 62,
+      "y": 120
+    }
+  ]
+}

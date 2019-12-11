@@ -7,6 +7,7 @@ import com.mercuriusxeno.mercurialtools.setup.ClientProxy;
 import com.mercuriusxeno.mercurialtools.setup.IProxy;
 import com.mercuriusxeno.mercurialtools.setup.ModSetup;
 import com.mercuriusxeno.mercurialtools.setup.ServerProxy;
+import com.mercuriusxeno.mercurialtools.util.ModState;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.BlockItem;
@@ -37,6 +38,8 @@ public class MercurialTools
     private static final Logger LOGGER = LogManager.getLogger();
 
     public static ModSetup setup = new ModSetup();
+
+    public static ModState state = new ModState();
 
     public static IProxy proxy = DistExecutor.runForDist(() -> () -> new ClientProxy(), () -> () -> new ServerProxy());
 
@@ -77,7 +80,10 @@ public class MercurialTools
         public static void onBlocksRegistry(final RegistryEvent.Register<Block> event) {
             // blocks
             event.getRegistry().register(new CondensingHopper());
-            event.getRegistry().register(new EnderKeystone());
+            event.getRegistry().register(new EnderKeystone().setRegistryName(Names.ENDER_KEYSTONE));
+            event.getRegistry().register(new EnderKeystone().setRegistryName(Names.ENDER_KEYSTONE_DAMPENED_I));
+            event.getRegistry().register(new EnderKeystone().setRegistryName(Names.ENDER_KEYSTONE_DAMPENED_II));
+            event.getRegistry().register(new EnderKeystone().setRegistryName(Names.ENDER_KEYSTONE_DAMPENED_III));
             event.getRegistry().register(new EnderVacuum());
             event.getRegistry().register(new EnticingPrism());
             event.getRegistry().register(new ExpandingHopper());
@@ -93,6 +99,9 @@ public class MercurialTools
             // item blocks
             event.getRegistry().register(new BlockItem(ModBlocks.CONDENSING_HOPPER, properties).setRegistryName(Names.CONDENSING_HOPPER));
             event.getRegistry().register(new BlockItem(ModBlocks.ENDER_KEYSTONE, properties).setRegistryName(Names.ENDER_KEYSTONE));
+            event.getRegistry().register(new BlockItem(ModBlocks.ENDER_KEYSTONE_DAMPENED_I, properties).setRegistryName(Names.ENDER_KEYSTONE_DAMPENED_I));
+            event.getRegistry().register(new BlockItem(ModBlocks.ENDER_KEYSTONE_DAMPENED_II, properties).setRegistryName(Names.ENDER_KEYSTONE_DAMPENED_II));
+            event.getRegistry().register(new BlockItem(ModBlocks.ENDER_KEYSTONE_DAMPENED_III, properties).setRegistryName(Names.ENDER_KEYSTONE_DAMPENED_III));
             event.getRegistry().register(new BlockItem(ModBlocks.ENDER_VACUUM, properties).setRegistryName(Names.ENDER_VACUUM));
             event.getRegistry().register(new BlockItem(ModBlocks.ENTICING_PRISM, properties).setRegistryName(Names.ENTICING_PRISM));
             event.getRegistry().register(new BlockItem(ModBlocks.EXPANDING_HOPPER, properties).setRegistryName(Names.EXPANDING_HOPPER));
@@ -113,8 +122,12 @@ public class MercurialTools
         @SubscribeEvent
         public static void onTileEntityRegistry(final RegistryEvent.Register<TileEntityType<?>> event) {
             event.getRegistry().register(TileEntityType.Builder.create(CondensingHopperTile::new, ModBlocks.CONDENSING_HOPPER).build(null).setRegistryName(Names.CONDENSING_HOPPER));
+            event.getRegistry().register(TileEntityType.Builder.create(EnderKeystoneTile::new, ModBlocks.ENDER_KEYSTONE).build(null).setRegistryName(Names.ENDER_KEYSTONE));
             event.getRegistry().register(TileEntityType.Builder.create(EnderVacuumTile::new, ModBlocks.ENDER_VACUUM).build(null).setRegistryName(Names.ENDER_VACUUM));
             event.getRegistry().register(TileEntityType.Builder.create(ExpandingHopperTile::new, ModBlocks.EXPANDING_HOPPER).build(null).setRegistryName(Names.EXPANDING_HOPPER));
+            event.getRegistry().register(TileEntityType.Builder.create(InterloperTile::new, ModBlocks.INTERLOPER).build(null).setRegistryName(Names.INTERLOPER));
+            event.getRegistry().register(TileEntityType.Builder.create(GrowthPulserTile::new, ModBlocks.GROWTH_PULSER).build(null).setRegistryName(Names.GROWTH_PULSER));
+            event.getRegistry().register(TileEntityType.Builder.create(EnticingPrismTile::new, ModBlocks.ENTICING_PRISM).build(null).setRegistryName(Names.ENTICING_PRISM));
         }
     }
 //

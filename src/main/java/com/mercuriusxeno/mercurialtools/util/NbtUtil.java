@@ -1,15 +1,13 @@
 package com.mercuriusxeno.mercurialtools.util;
 
-import com.mercuriusxeno.mercurialtools.reference.Constants;
 import com.mercuriusxeno.mercurialtools.reference.Names;
-import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.ItemStackHelper;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.Tuple;
+import net.minecraftforge.common.util.Constants;
 
 import java.util.ArrayList;
 
@@ -50,11 +48,11 @@ public class NbtUtil {
             tag = itemStack.getTag();
         }
 
-        if (!tag.contains(Names.ITEMS, 9)) {
+        if (!tag.contains(Names.ITEMS, Constants.NBT.TAG_LIST)) {
             return NonNullList.withSize(1, ItemStack.EMPTY);
         }
 
-        ListNBT tagItems = tag.getList("Items", 10);
+        ListNBT tagItems = tag.getList("Items", Constants.NBT.TAG_COMPOUND);
         int listSize = tagItems.size();
 
         NonNullList<ItemStack> loadStacks = NonNullList.withSize(listSize, ItemStack.EMPTY);
@@ -72,11 +70,11 @@ public class NbtUtil {
             tag = new CompoundNBT();
         }
 
-        if (!tag.contains(Names.ITEMS, 9)) {
+        if (!tag.contains(Names.ITEMS, Constants.NBT.TAG_LIST)) {
             tag.put(Names.ITEMS, new ListNBT());
         }
 
-        ListNBT tagItems = tag.getList("Items", 10);
+        ListNBT tagItems = tag.getList("Items", Constants.NBT.TAG_COMPOUND);
         int listSize = tagItems.size();
 
         // whatever the list size was, assume it will grow by one for safety's sake.

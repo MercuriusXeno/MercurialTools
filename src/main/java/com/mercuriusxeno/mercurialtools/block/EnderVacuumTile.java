@@ -1,6 +1,6 @@
 package com.mercuriusxeno.mercurialtools.block;
 
-import com.mercuriusxeno.mercurialtools.reference.Constants;
+import com.mercuriusxeno.mercurialtools.reference.ModConstants;
 import com.mercuriusxeno.mercurialtools.reference.Names;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -97,7 +97,7 @@ public class EnderVacuumTile extends LockableLootTileEntity implements ISidedInv
         }
         AxisAlignedBB tileBox = this.getBoundingBox(this.getBlockState()).offset(getVacuumDestination());
         // "configurable" block radius determines how far to grab entity items from
-        List<ItemEntity> items = this.getWorld().getEntitiesWithinAABB(ItemEntity.class, tileBox.grow(Constants.ENDER_VACUUM_RANGE), e -> getDistanceToEntity(e) <= Constants.ENDER_VACUUM_RANGE);
+        List<ItemEntity> items = this.getWorld().getEntitiesWithinAABB(ItemEntity.class, tileBox.grow(ModConstants.ENDER_VACUUM_RANGE), e -> getDistanceToEntity(e) <= ModConstants.ENDER_VACUUM_RANGE);
 
         // track items first
         for(ItemEntity item : items) {
@@ -126,8 +126,8 @@ public class EnderVacuumTile extends LockableLootTileEntity implements ISidedInv
         boolean isGrabbingItem = false;
         for (ItemEntity item : trackedItemEntities) {
             // no clip here weirdly didn't seem to work. trying with null bounding box instead...
-            if (getVacuumDestination().distanceTo(getItemPosition(item)) > Constants.UNIT_CUBE_CORNER_DISTANCE_COEFFICIENT) {
-                item.setBoundingBox(Constants.EMPTY_BOUNDING_BOX.offset(item.getPositionVec()));
+            if (getVacuumDestination().distanceTo(getItemPosition(item)) > ModConstants.UNIT_CUBE_CORNER_DISTANCE_COEFFICIENT) {
+                item.setBoundingBox(ModConstants.EMPTY_BOUNDING_BOX.offset(item.getPositionVec()));
                 item.setNoGravity(true);
                 isGrabbingItem = true;
                 Vec3d vacuumVector = getVacuumVector(item).normalize().scale(0.5D); // slow it down a little
@@ -363,10 +363,16 @@ public class EnderVacuumTile extends LockableLootTileEntity implements ISidedInv
     }
 
     private void updateNeighborStates() {
+        if (this.getWorld() == null) {
+            return;
+        }
         this.getBlockState().updateNeighbors(this.getWorld(), this.getPos(), 3);
     }
 
     public void openInventory(PlayerEntity player) {
+        if (this.world == null) {
+            return;
+        }
         if (!player.isSpectator()) {
             if (this.openCount < 0) {
                 this.openCount = 0;
@@ -390,6 +396,7 @@ public class EnderVacuumTile extends LockableLootTileEntity implements ISidedInv
         }
     }
 
+    @Override
     protected ITextComponent getDefaultName() {
         return new TranslationTextComponent("container.enderVacuum");
     }

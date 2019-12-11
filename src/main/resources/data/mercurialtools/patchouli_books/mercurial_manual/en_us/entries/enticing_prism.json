@@ -1,0 +1,16 @@
+{
+  "name": "block.mercurialtools.enticing_prism",
+  "category": "blocks",
+  "icon": "mercurialtools:enticing_prism",
+  "pages":[
+    {
+      "type": "text",
+      "text": "block.mercurialtools.enticing_prism_description"
+    },
+    {
+      "type": "crafting",
+      "recipe": "mercurialtools:enticing_prism",
+      "text": "block.mercurialtools.enticing_prism_description_extra"
+    }
+  ]
+}

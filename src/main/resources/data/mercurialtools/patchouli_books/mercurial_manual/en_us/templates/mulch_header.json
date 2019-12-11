@@ -1,0 +1,360 @@
+{
+  "components": [
+    {
+      "type": "header",
+      "text": "mercurialtools.mulching_recipes",
+      "x": -1,
+      "y": -1
+    },
+    {
+      "type": "separator",
+      "x": -1,
+      "y": -1
+    }
+  ],
+  "include": [
+    {
+      "template": "single_item",
+      "as": "t1",
+      "using": {},
+      "x": 0,
+      "y": 18
+    },
+    {
+      "template": "single_item",
+      "as": "t2",
+      "using": {},
+      "x": 17,
+      "y": 18
+    },
+    {
+      "template": "single_item",
+      "as": "t3",
+      "using": {},
+      "x": 34,
+      "y": 18
+    },
+    {
+      "template": "single_item",
+      "as": "t4",
+      "using": {},
+      "x": 51,
+      "y": 18
+    },
+    {
+      "template": "single_item",
+      "as": "t5",
+      "using": {},
+      "x": 68,
+      "y": 18
+    },
+    {
+      "template": "single_item",
+      "as": "t6",
+      "using": {},
+      "x": 85,
+      "y": 18
+    },
+    {
+      "template": "single_item",
+      "as": "t7",
+      "using": {},
+      "x": 102,
+      "y": 18
+    },
+    {
+      "template": "single_item",
+      "as": "t8",
+      "using": {},
+      "x": 0,
+      "y": 35
+    },
+    {
+      "template": "single_item",
+      "as": "t9",
+      "using": {},
+      "x": 17,
+      "y": 35
+    },
+    {
+      "template": "single_item",
+      "as": "t10",
+      "using": {},
+      "x": 34,
+      "y": 35
+    },
+    {
+      "template": "single_item",
+      "as": "t11",
+      "using": {},
+      "x": 51,
+      "y": 35
+    },
+    {
+      "template": "single_item",
+      "as": "t12",
+      "using": {},
+      "x": 68,
+      "y": 35
+    },
+    {
+      "template": "single_item",
+      "as": "t13",
+      "using": {},
+      "x": 85,
+      "y": 35
+    },
+    {
+      "template": "single_item",
+      "as": "t14",
+      "using": {},
+      "x": 102,
+      "y": 35
+    },
+    {
+      "template": "single_item",
+      "as": "t15",
+      "using": {},
+      "x": 0,
+      "y": 52
+    },
+    {
+      "template": "single_item",
+      "as": "t16",
+      "using": {},
+      "x": 17,
+      "y": 52
+    },
+    {
+      "template": "single_item",
+      "as": "t17",
+      "using": {},
+      "x": 34,
+      "y": 52
+    },
+    {
+      "template": "single_item",
+      "as": "t18",
+      "using": {},
+      "x": 51,
+      "y": 52
+    },
+    {
+      "template": "single_item",
+      "as": "t19",
+      "using": {},
+      "x": 68,
+      "y": 52
+    },
+    {
+      "template": "single_item",
+      "as": "t20",
+      "using": {},
+      "x": 85,
+      "y": 52
+    },
+    {
+      "template": "single_item",
+      "as": "t21",
+      "using": {},
+      "x": 102,
+      "y": 52
+    },
+    {
+      "template": "single_item",
+      "as": "t22",
+      "using": {},
+      "x": 0,
+      "y": 69
+    },
+    {
+      "template": "single_item",
+      "as": "t23",
+      "using": {},
+      "x": 17,
+      "y": 69
+    },
+    {
+      "template": "single_item",
+      "as": "t24",
+      "using": {},
+      "x": 34,
+      "y": 69
+    },
+    {
+      "template": "single_item",
+      "as": "t25",
+      "using": {},
+      "x": 51,
+      "y": 69
+    },
+    {
+      "template": "single_item",
+      "as": "t26",
+      "using": {},
+      "x": 68,
+      "y": 69
+    },
+    {
+      "template": "single_item",
+      "as": "t27",
+      "using": {},
+      "x": 85,
+      "y": 69
+    },
+    {
+      "template": "single_item",
+      "as": "t28",
+      "using": {},
+      "x": 102,
+      "y": 69
+    },
+    {
+      "template": "single_item",
+      "as": "t29",
+      "using": {},
+      "x": 0,
+      "y": 86
+    },
+    {
+      "template": "single_item",
+      "as": "t30",
+      "using": {},
+      "x": 17,
+      "y": 86
+    },
+    {
+      "template": "single_item",
+      "as": "t31",
+      "using": {},
+      "x": 34,
+      "y": 86
+    },
+    {
+      "template": "single_item",
+      "as": "t32",
+      "using": {},
+      "x": 51,
+      "y": 86
+    },
+    {
+      "template": "single_item",
+      "as": "t33",
+      "using": {},
+      "x": 68,
+      "y": 86
+    },
+    {
+      "template": "single_item",
+      "as": "t34",
+      "using": {},
+      "x": 85,
+      "y": 86
+    },
+    {
+      "template": "single_item",
+      "as": "t35",
+      "using": {},
+      "x": 102,
+      "y": 86
+    },
+    {
+      "template": "single_item",
+      "as": "t36",
+      "using": {},
+      "x": 0,
+      "y": 103
+    },
+    {
+      "template": "single_item",
+      "as": "t37",
+      "using": {},
+      "x": 17,
+      "y": 103
+    },
+    {
+      "template": "single_item",
+      "as": "t38",
+      "using": {},
+      "x": 34,
+      "y": 103
+    },
+    {
+      "template": "single_item",
+      "as": "t39",
+      "using": {},
+      "x": 51,
+      "y": 103
+    },
+    {
+      "template": "single_item",
+      "as": "t40",
+      "using": {},
+      "x": 68,
+      "y": 103
+    },
+    {
+      "template": "single_item",
+      "as": "t41",
+      "using": {},
+      "x": 85,
+      "y": 103
+    },
+    {
+      "template": "single_item",
+      "as": "t42",
+      "using": {},
+      "x": 102,
+      "y": 103
+    },
+    {
+      "template": "single_item",
+      "as": "t43",
+      "using": {},
+      "x": 0,
+      "y": 120
+    },
+    {
+      "template": "single_item",
+      "as": "t44",
+      "using": {},
+      "x": 17,
+      "y": 120
+    },
+    {
+      "template": "single_item",
+      "as": "t45",
+      "using": {},
+      "x": 34,
+      "y": 120
+    },
+    {
+      "template": "single_item",
+      "as": "t46",
+      "using": {},
+      "x": 51,
+      "y": 120
+    },
+    {
+      "template": "single_item",
+      "as": "t47",
+      "using": {},
+      "x": 68,
+      "y": 120
+    },
+    {
+      "template": "single_item",
+      "as": "t48",
+      "using": {},
+      "x": 85,
+      "y": 120
+    },
+    {
+      "template": "single_item",
+      "as": "t49",
+      "using": {},
+      "x": 102,
+      "y": 120
+    }
+  ]
+}

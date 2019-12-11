@@ -23,7 +23,10 @@ public class AlignedField {
     // the height, width and depth of each axis of the projected field, in the positive direction.
     public ProjectedFieldCoordinates positiveBoundaries;
 
+    public BlockPos position;
+
     public AlignedField(BlockPos position, Direction faceDirection, Direction topDirection, int xMin, int xMax, int yMin, int yMax, int zMin, int zMax) {
+        this.position = position;
         this.negativeBoundaries = new ProjectedFieldCoordinates(xMin, yMin, zMin);
         this.positiveBoundaries = new ProjectedFieldCoordinates(xMax, yMax, zMax);
         this.faceDirection = faceDirection;
@@ -51,6 +54,6 @@ public class AlignedField {
                 this.negativeBoundaries.getZ(),
                 this.positiveBoundaries.getX(),
                 this.positiveBoundaries.getY(),
-                this.positiveBoundaries.getZ());
+                this.positiveBoundaries.getZ()).offset(this.position);
     }
 }

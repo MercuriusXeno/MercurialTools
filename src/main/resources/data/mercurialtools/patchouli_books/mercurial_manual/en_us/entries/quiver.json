@@ -1,0 +1,16 @@
+{
+  "name": "item.mercurialtools.quiver",
+  "category": "items",
+  "icon": "mercurialtools:quiver",
+  "pages":[
+    {
+      "type": "text",
+      "text": "item.mercurialtools.quiver_description"
+    },
+    {
+      "type": "crafting",
+      "recipe": "mercurialtools:quiver",
+      "text": "item.mercurialtools.quiver_description_extra"
+    }
+  ]
+}

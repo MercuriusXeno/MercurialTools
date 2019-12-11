@@ -29,10 +29,15 @@ public class ExpandingHopper extends HopperBlock {
         setRegistryName(Names.EXPANDING_HOPPER);
     }
 
+    @Override
+    public boolean hasTileEntity(BlockState state) {
+        return state.getBlock().equals(this);
+    }
+
     @Nullable
     @Override
-    public TileEntity createNewTileEntity(IBlockReader worldIn) {
-        return new ExpandingHopperTile();
+    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
+        return state.getBlock().equals(this) ? new ExpandingHopperTile() : null;
     }
 
     /**

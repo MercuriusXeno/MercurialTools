@@ -1,0 +1,34 @@
+{
+  "components": [
+    {
+      "type": "item",
+      "item": "#input",
+      "x": 0,
+      "y": 0
+    },
+    {
+      "type": "text",
+      "text": "#inputcount",
+      "x": 17,
+      "y": 6
+    },
+    {
+      "type": "text",
+      "text": "#direction",
+      "x": 22,
+      "y": 4
+    },
+    {
+      "type": "item",
+      "item": "#output",
+      "x": 30,
+      "y": 0
+    },
+    {
+      "type": "text",
+      "text": "#outputcount",
+      "x": 48,
+      "y": 6
+    }
+  ]
+}

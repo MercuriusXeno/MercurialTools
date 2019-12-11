@@ -1,40 +1,28 @@
 package com.mercuriusxeno.mercurialtools.block;
 
-import com.mercuriusxeno.mercurialtools.reference.Constants;
 import com.mercuriusxeno.mercurialtools.reference.Names;
-import com.mercuriusxeno.mercurialtools.util.AlignedField;
-import com.mercuriusxeno.mercurialtools.util.ProjectedField;
-import com.mercuriusxeno.mercurialtools.util.ProjectedFieldCoordinates;
-import com.mercuriusxeno.mercurialtools.util.enums.AlignmentBias;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.DirectionalBlock;
-import net.minecraft.block.SoundType;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.util.DamageSource;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.Constants;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import javax.annotation.Nullable;
 
 public class Interloper extends DirectionalBlock {
 
     public static final DirectionProperty TOPFACING = DirectionProperty.create("topfacing", Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST, Direction.UP, Direction.DOWN);
+    public static final BooleanProperty POWERED = BooleanProperty.create("powered");
 
     public Interloper() {
         super(Block.Properties
@@ -43,16 +31,27 @@ public class Interloper extends DirectionalBlock {
                 .hardnessAndResistance(3.0f)
                 .lightValue(0));
         setRegistryName(Names.INTERLOPER);
-        this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.SOUTH).with(TOPFACING, Direction.UP));
+        this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.SOUTH).with(TOPFACING, Direction.UP).with(POWERED, false));
     }
-    public static final ProjectedField DEATHFIELD =
-            new ProjectedField(AlignmentBias.CENTER, AlignmentBias.CENTER, AlignmentBias.NEGATIVE,
-                    Constants.INTERLOPER_OFFSET_HEIGHT, Constants.INTERLOPER_FIELD_HEIGHT,
-                    Constants.INTERLOPER_OFFSET_WIDTH, Constants.INTERLOPER_FIELD_WIDTH,
-                    Constants.INTERLOPER_OFFSET_DEPTH, Constants.INTERLOPER_FIELD_DEPTH);
+
+    @Override
+    public boolean hasTileEntity(BlockState state) {
+        return state.getBlock().equals(this);
+    }
+
+    @Nullable
+    @Override
+    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
+        return state.getBlock().equals(this) ? new InterloperTile() : null;
+    }
 
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-        builder.add(FACING, TOPFACING);
+        builder.add(FACING, TOPFACING, POWERED);
+    }
+
+    @Override
+    public boolean canConnectRedstone(BlockState state, IBlockReader world, BlockPos pos, @Nullable Direction side) {
+        return state.get(FACING) == side;
     }
 
     /**
@@ -72,32 +71,37 @@ public class Interloper extends DirectionalBlock {
         return state.rotate(mirrorIn.toRotation(state.get(FACING)));
     }
 
+    protected boolean shouldBeOn(IWorld worldIn, BlockPos pos, BlockState state) {
+        if (worldIn instanceof World) {
+            Direction facing = state.get(FACING);
+            return ((World)worldIn).isSidePowered(pos, facing.getOpposite());
+        }
+        return false;
+    }
+
+    public static void update(BlockState state, IWorld worldIn, BlockPos pos, boolean isPowered) {
+        if (state.get(POWERED)) {
+            if (!isPowered) {
+                worldIn.setBlockState(pos, state.with(POWERED, Boolean.FALSE), Constants.BlockFlags.DEFAULT);
+            }
+        } else if (isPowered) {
+            worldIn.setBlockState(pos, state.with(POWERED, Boolean.TRUE), Constants.BlockFlags.DEFAULT);
+        }
+    }
+
     @Override
-    public void tick(BlockState state, World worldIn, BlockPos pos, Random random) {
-        if (worldIn == null || worldIn.isRemote) {
-            return;
+    public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
+        if (!worldIn.isRemote()) {
+            update(stateIn, worldIn, currentPos, shouldBeOn(worldIn, currentPos, stateIn));
         }
 
-        // get the block facing, as it determines the projected "death field"
-        Direction faceDirection = state.get(FACING);
-        Direction topDirection = state.get(TOPFACING);
+        return stateIn.with(POWERED, this.shouldBeOn(worldIn, currentPos, stateIn));
+    }
 
-        // TODO - make this work
-        AlignedField deathField = DEATHFIELD.getProjectedField(pos, faceDirection, topDirection);
-
-        AxisAlignedBB boundingBox = deathField.getBoundingBox();
-
-        // TODO - make this use a whitelist
-        // check if there are any living entities that aren't players in the area.
-        // make sure those entities are whitelisted for murder via interloper.
-
-        List<LivingEntity> entities = worldIn.getEntitiesWithinAABB(LivingEntity.class, boundingBox, e -> !(e instanceof PlayerEntity));
-        for(LivingEntity e : entities) {
-            e.onDeath(DamageSource.GENERIC);
+    public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving) {
+        if (!worldIn.isRemote()) {
+            update(state, worldIn, pos, shouldBeOn(worldIn, pos, state));
         }
-
-        // schedule the next tick
-        worldIn.getPendingBlockTicks().scheduleTick(pos, this, Constants.INTERLOPER_UPDATE_COOLDOWN);
     }
 
     public BlockState getStateForPlacement(BlockItemUseContext context) {
@@ -115,6 +119,6 @@ public class Interloper extends DirectionalBlock {
                 break;
             }
         }
-        return this.getDefaultState().with(FACING, facing).with(TOPFACING, topFacing);
+        return this.getDefaultState().with(FACING, facing).with(TOPFACING, topFacing).with(POWERED, shouldBeOn(context.getWorld(), context.getPos(), this.getDefaultState().with(FACING, facing).with(TOPFACING, topFacing)));
     }
 }

@@ -7,6 +7,9 @@ public class Names {
     // blocks
     public static final String CONDENSING_HOPPER = "condensing_hopper";
     public static final String ENDER_KEYSTONE = "ender_keystone";
+    public static final String ENDER_KEYSTONE_DAMPENED_I = "ender_keystone_dampened_i";
+    public static final String ENDER_KEYSTONE_DAMPENED_II = "ender_keystone_dampened_ii";
+    public static final String ENDER_KEYSTONE_DAMPENED_III = "ender_keystone_dampened_iii";
     public static final String ENDER_VACUUM = "ender_vacuum";
     public static final String ENTICING_PRISM = "enticing_prism";
     public static final String EXPANDING_HOPPER = "expanding_hopper";
@@ -35,6 +38,7 @@ public class Names {
      * The case on this matters to the json models. Beware changing it.
      */
     public static final String IS_DISABLED = "is_disabled";
+    public static final String DAMPENING_LEVEL = "dampening";
 
     /*
      * Please don't change the case of these.

@@ -59,11 +59,6 @@ public class ProjectedField {
     }
 
     public AlignedField getProjectedField(BlockPos position, Direction faceDirection, Direction topDirection) {
-        // capture the origin position of the block itself, this is the "source" of the field, used to project center/offsets/widths.
-        int xOrigin = position.getX();
-        int yOrigin = position.getY();
-        int zOrigin = position.getZ();
-
         // the price of these lengths being even is that an even length places it a block offset from an otherwise central position, always in the positive direction.
         Tuple<Integer, Integer> widthMagnitudes = getMagnitudes(width, widthOffset, horizontalAlignment,
                 isWidthBiasInverted(faceDirection, topDirection));
@@ -122,7 +117,7 @@ public class ProjectedField {
                 zMax = widthMagnitudes.getB();
                 break;
         }
-        return new AlignedField(position, faceDirection, topDirection, xOrigin + xMin,xOrigin + xMax, yOrigin + yMin, yOrigin + yMax, zOrigin + zMin, zOrigin + zMax);
+        return new AlignedField(position, faceDirection, topDirection, xMin, xMax, yMin, yMax, zMin, zMax);
     }
 
     private static boolean isWidthBiasInverted(Direction faceDirection, Direction topDirection) {

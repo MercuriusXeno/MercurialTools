@@ -1,0 +1,16 @@
+{
+  "name": "block.mercurialtools.ender_keystone",
+  "category": "blocks",
+  "icon": "mercurialtools:ender_keystone",
+  "pages":[
+    {
+      "type": "text",
+      "text": "block.mercurialtools.ender_keystone_description"
+    },
+    {
+      "type": "crafting",
+      "recipe": "mercurialtools:ender_keystone",
+      "text": "block.mercurialtools.ender_keystone_description_extra"
+    }
+  ]
+}
