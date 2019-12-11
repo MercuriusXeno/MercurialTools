@@ -1,28 +1,10 @@
 {
   "variants": {
-    "facing=up,dampening=0": { "model": "mercurialtools:block/ender_keystone", "x": 270},
-    "facing=down,dampening=0": { "model": "mercurialtools:block/ender_keystone", "x": 90 },
-    "facing=north,dampening=0": { "model": "mercurialtools:block/ender_keystone" },
-    "facing=south,dampening=0": { "model": "mercurialtools:block/ender_keystone", "y": 180 },
-    "facing=west,dampening=0": { "model": "mercurialtools:block/ender_keystone", "y": 270 },
-    "facing=east,dampening=0": { "model": "mercurialtools:block/ender_keystone", "y": 90 },
-    "facing=up,dampening=1": { "model": "mercurialtools:block/ender_keystone_dampened_i", "x": 270},
-    "facing=down,dampening=1": { "model": "mercurialtools:block/ender_keystone_dampened_i", "x": 90 },
-    "facing=north,dampening=1": { "model": "mercurialtools:block/ender_keystone_dampened_i" },
-    "facing=south,dampening=1": { "model": "mercurialtools:block/ender_keystone_dampened_i", "y": 180 },
-    "facing=west,dampening=1": { "model": "mercurialtools:block/ender_keystone_dampened_i", "y": 270 },
-    "facing=east,dampening=1": { "model": "mercurialtools:block/ender_keystone_dampened_i", "y": 90 },
-    "facing=up,dampening=2": { "model": "mercurialtools:block/ender_keystone_dampened_ii", "x": 270},
-    "facing=down,dampening=2": { "model": "mercurialtools:block/ender_keystone_dampened_ii", "x": 90 },
-    "facing=north,dampening=2": { "model": "mercurialtools:block/ender_keystone_dampened_ii" },
-    "facing=south,dampening=2": { "model": "mercurialtools:block/ender_keystone_dampened_ii", "y": 180 },
-    "facing=west,dampening=2": { "model": "mercurialtools:block/ender_keystone_dampened_ii", "y": 270 },
-    "facing=east,dampening=2": { "model": "mercurialtools:block/ender_keystone_dampened_ii", "y": 90 },
-    "facing=up,dampening=3": { "model": "mercurialtools:block/ender_keystone_dampened_iii", "x": 270},
-    "facing=down,dampening=3": { "model": "mercurialtools:block/ender_keystone_dampened_iii", "x": 90 },
-    "facing=north,dampening=3": { "model": "mercurialtools:block/ender_keystone_dampened_iii" },
-    "facing=south,dampening=3": { "model": "mercurialtools:block/ender_keystone_dampened_iii", "y": 180 },
-    "facing=west,dampening=3": { "model": "mercurialtools:block/ender_keystone_dampened_iii", "y": 270 },
-    "facing=east,dampening=3": { "model": "mercurialtools:block/ender_keystone_dampened_iii", "y": 90 }
+    "facing=up": { "model": "mercurialtools:block/ender_keystone_dampened_i", "x": 270},
+    "facing=down": { "model": "mercurialtools:block/ender_keystone_dampened_i", "x": 90 },
+    "facing=north": { "model": "mercurialtools:block/ender_keystone_dampened_i" },
+    "facing=south": { "model": "mercurialtools:block/ender_keystone_dampened_i", "y": 180 },
+    "facing=west": { "model": "mercurialtools:block/ender_keystone_dampened_i", "y": 270 },
+    "facing=east": { "model": "mercurialtools:block/ender_keystone_dampened_i", "y": 90 }
   }
 }

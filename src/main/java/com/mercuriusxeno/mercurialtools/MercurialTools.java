@@ -80,10 +80,10 @@ public class MercurialTools
         public static void onBlocksRegistry(final RegistryEvent.Register<Block> event) {
             // blocks
             event.getRegistry().register(new CondensingHopper());
-            event.getRegistry().register(new EnderKeystone().setRegistryName(Names.ENDER_KEYSTONE));
-            event.getRegistry().register(new EnderKeystone().setRegistryName(Names.ENDER_KEYSTONE_DAMPENED_I));
-            event.getRegistry().register(new EnderKeystone().setRegistryName(Names.ENDER_KEYSTONE_DAMPENED_II));
-            event.getRegistry().register(new EnderKeystone().setRegistryName(Names.ENDER_KEYSTONE_DAMPENED_III));
+            event.getRegistry().register(new EnderKeystone(0).setRegistryName(Names.ENDER_KEYSTONE));
+            event.getRegistry().register(new EnderKeystone(1).setRegistryName(Names.ENDER_KEYSTONE_DAMPENED_I));
+            event.getRegistry().register(new EnderKeystone(2).setRegistryName(Names.ENDER_KEYSTONE_DAMPENED_II));
+            event.getRegistry().register(new EnderKeystone(3).setRegistryName(Names.ENDER_KEYSTONE_DAMPENED_III));
             event.getRegistry().register(new EnderVacuum());
             event.getRegistry().register(new EnticingPrism());
             event.getRegistry().register(new ExpandingHopper());
@@ -122,7 +122,14 @@ public class MercurialTools
         @SubscribeEvent
         public static void onTileEntityRegistry(final RegistryEvent.Register<TileEntityType<?>> event) {
             event.getRegistry().register(TileEntityType.Builder.create(CondensingHopperTile::new, ModBlocks.CONDENSING_HOPPER).build(null).setRegistryName(Names.CONDENSING_HOPPER));
-            event.getRegistry().register(TileEntityType.Builder.create(EnderKeystoneTile::new, ModBlocks.ENDER_KEYSTONE).build(null).setRegistryName(Names.ENDER_KEYSTONE));
+            event.getRegistry().register(TileEntityType.Builder
+                    .create(EnderKeystoneTile::new,
+                            ModBlocks.ENDER_KEYSTONE,
+                            ModBlocks.ENDER_KEYSTONE_DAMPENED_I,
+                            ModBlocks.ENDER_KEYSTONE_DAMPENED_II,
+                            ModBlocks.ENDER_KEYSTONE_DAMPENED_III)
+                    .build(null)
+                    .setRegistryName(Names.ENDER_KEYSTONE));
             event.getRegistry().register(TileEntityType.Builder.create(EnderVacuumTile::new, ModBlocks.ENDER_VACUUM).build(null).setRegistryName(Names.ENDER_VACUUM));
             event.getRegistry().register(TileEntityType.Builder.create(ExpandingHopperTile::new, ModBlocks.EXPANDING_HOPPER).build(null).setRegistryName(Names.EXPANDING_HOPPER));
             event.getRegistry().register(TileEntityType.Builder.create(InterloperTile::new, ModBlocks.INTERLOPER).build(null).setRegistryName(Names.INTERLOPER));

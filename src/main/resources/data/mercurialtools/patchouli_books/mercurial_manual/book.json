@@ -3,8 +3,7 @@
   "landing_text": "mercurialtools.landing_patchouli_text",
   "version": 1,
   "model": "mercurialtools:mercurial_manual",
-  "book_texture": "patchouli:textures/gui/book_red.png",
   "i18n": true,
   "dont_generate_book": false,
-  "creative_tab": "itemGroup.mercurialtools"
+  "creative_tab": "mercurialtools"
 }

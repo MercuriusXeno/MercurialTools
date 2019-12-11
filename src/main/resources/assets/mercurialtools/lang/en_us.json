@@ -39,6 +39,7 @@
   "mercurialtools.category_blocks_description": "Mainly blocks intended for creating farms, reducing grinding and compressing more elaborate mechanisms.",
   "block.mercurialtools.condensing_hopper_description": "A hopper that compresses items as it pushes them to their destination.",
   "block.mercurialtools.condensing_hopper_description_extra": "Recipes on the following pages.",
+  "block.mercurialtools.ender_keystone_dampened_title": "Dampened Keystones",
   "block.mercurialtools.ender_keystone_description": "A keystone from the End, embossed with spatial distortion reagents. When you pass over it, you skip up to 32 blocks.$(br2)Can be tricky to use: $(li)Sprint across it to blink laterally in the direction you're mostly running. $(li)Jump while standing on it to blink upward. $(li)Sneak while standing on it to blink downward.",
   "block.mercurialtools.ender_keystone_description_extra": "If you jump off of it, it will grant you temporary slow falling proportionate to the power of the blink. In theory, you should only ever blink to a safe location. Unsafe warps that would disperse your molecules into solid matter should instead do nothing.",
   "block.mercurialtools.ender_keystone_dampened_description": "You can dampen an Ender Keystone with carpet to reduce its effects by half, up to 3 times. Using a piece of flint on any dampened keystone reverts it to a normal Keystone.",

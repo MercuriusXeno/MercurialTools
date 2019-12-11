@@ -7,7 +7,7 @@
   ],
   "key": {
     "f": {
-      "tag": "minecraft:flint"
+      "item": "minecraft:flint"
     },
     "k": {
       "item": "mercurialtools:ender_keystone_dampened_i"

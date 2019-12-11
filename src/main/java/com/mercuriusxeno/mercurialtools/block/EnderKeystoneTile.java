@@ -2,11 +2,10 @@ package com.mercuriusxeno.mercurialtools.block;
 
 import com.mercuriusxeno.mercurialtools.reference.ModConstants;
 import com.mercuriusxeno.mercurialtools.util.AlignedField;
-import com.mercuriusxeno.mercurialtools.util.BlockUtil;
 import com.mercuriusxeno.mercurialtools.util.LastPosition;
 import com.mercuriusxeno.mercurialtools.util.ProjectedField;
 import com.mercuriusxeno.mercurialtools.util.enums.AlignmentBias;
-import net.minecraft.block.BlockState;
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.pathfinding.PathType;
@@ -14,7 +13,6 @@ import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -173,8 +171,16 @@ public class EnderKeystoneTile extends TileEntity implements ITickableTileEntity
 
     private int dampening = -1;
     private int getDampening() {
+        if (this.world == null) {
+            return 0;
+        }
         if (dampening == -1) {
-            dampening = MathHelper.ceil(Math.pow(2, this.world.getBlockState(this.getPos()).get(BlockUtil.dampenedProperty)));
+            Block blockFound = this.world.getBlockState(this.getPos()).getBlock();
+            if (!(blockFound instanceof EnderKeystone)) {
+                return 0;
+            }
+
+            dampening = MathHelper.ceil(Math.pow(2, ((EnderKeystone)blockFound).getDampening()));
         }
         return dampening;
     }
