@@ -106,7 +106,7 @@ public class NbtUtil {
             ItemStack stack = containedItems.get(i);
             boolean isAlreadyFound = false;
             for(ItemStack alreadyFoundStack : matchingStacks) {
-                if (ItemStack.areItemStackTagsEqual(alreadyFoundStack, stack)) {
+                if (ItemStack.areItemsEqual(alreadyFoundStack, stack) && ItemStack.areItemStackTagsEqual(alreadyFoundStack, stack)) {
                     isAlreadyFound = true;
                 }
             }
