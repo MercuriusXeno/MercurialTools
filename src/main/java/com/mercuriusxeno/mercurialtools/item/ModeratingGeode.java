@@ -9,16 +9,12 @@ import net.minecraft.block.Blocks;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.*;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -36,6 +32,8 @@ public class ModeratingGeode extends Item {
         this.addPropertyOverride(ItemUtil.disabledProperty, ItemUtil.disablingPropertyGetter);
         setRegistryName(Names.MODERATING_GEODE);
     }
+
+    public static final ArrayList<Item> ITEM_EXCEPTIONS = new ArrayList<>();
 
     public static final ArrayList<Item> GEODE_CONSUMES_THESE = new ArrayList<>(
             Arrays.asList(
@@ -99,63 +97,9 @@ public class ModeratingGeode extends Item {
         PlayerEntity player = (PlayerEntity) entityIn;
 
         if (NbtUtil.getIsDisabled(stack)) {
-            undoContainment(stack, player);
+            ItemUtil.undoContainment(stack, player);
         } else {
-            doContainment(stack, player);
-        }
-    }
-
-    private static void undoContainment(ItemStack geodeStack, PlayerEntity player) {
-        PlayerInventory playerInventory = player.inventory;
-
-        NonNullList<ItemStack> geodeItems = NbtUtil.getItems(geodeStack);
-        for(int i = 0; i < geodeItems.size(); i++) {
-            // after removing the stack from the util list, persist the changes.
-            ItemStack takenStack = ItemStackHelper.getAndRemove(geodeItems, i);
-            CompoundNBT tag = geodeStack.getTag();
-            ItemStackHelper.saveAllItems(tag, geodeItems);
-            geodeStack.setTag(tag);
-
-            if (takenStack == ItemStack.EMPTY) {
-                continue;
-            }
-            if (!playerInventory.addItemStackToInventory(takenStack)) {
-                NbtUtil.addItemStackToContainerItem(geodeStack, takenStack);
-                break;
-            }
-        }
-    }
-
-    private static void doContainment(ItemStack container, PlayerEntity player) {
-        PlayerInventory playerInventory = player.inventory;
-
-        for(Item itemToConsume : GEODE_CONSUMES_THESE) {
-            // make sure we respect distinct nbt tags, we do this by
-            // getting all items in the player inventory with distint NBTs
-            NonNullList<ItemStack> distinctStacks = ItemUtil.getAllDistinctlyTaggedStacks(playerInventory, container, itemToConsume);
-
-            for(ItemStack distinctStack : distinctStacks) {
-                while (ItemUtil.getItemCountInInventory(playerInventory, distinctStack) > distinctStack.getMaxStackSize()) {
-                    ItemStack stackFound = ItemUtil.getAndRemoveOneStack(playerInventory.mainInventory, distinctStack);
-                    NbtUtil.addItemStackToContainerItem(container, stackFound);
-                }
-
-                NonNullList<ItemStack> containedItems = NbtUtil.getItems(container);
-                int amountWeWouldLike = distinctStack.getMaxStackSize() - ItemUtil.getItemCountInInventory(playerInventory, distinctStack);
-                if (amountWeWouldLike <= 0) {
-                    continue;
-                }
-                // the opposite should occur for each distinct stack that isn't full when the container item has items in it
-                ItemStack siphonedStack = ItemUtil.siphonStacks(distinctStack, amountWeWouldLike, containedItems);
-                if (!playerInventory.addItemStackToInventory(siphonedStack)) {
-                    NbtUtil.addItemStackToContainerItem(container, siphonedStack);
-                }
-
-                // no matter what just happened, persist the Nbt updates.
-                CompoundNBT tag = container.getTag();
-                ItemStackHelper.saveAllItems(tag, containedItems);
-                container.setTag(tag);
-            }
+            ItemUtil.doContainment(stack, player, GEODE_CONSUMES_THESE, ITEM_EXCEPTIONS);
         }
     }
 }

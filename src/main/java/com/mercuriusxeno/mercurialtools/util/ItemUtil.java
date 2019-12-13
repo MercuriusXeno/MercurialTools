@@ -8,6 +8,7 @@ import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
@@ -172,5 +173,77 @@ public class ItemUtil {
         }
 
         return result;
+    }
+
+    public static boolean isInventoryFull(NonNullList<ItemStack> inventory) {
+        for(ItemStack checkInventoryForSpaceStack : inventory) {
+            if (checkInventoryForSpaceStack.isEmpty()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public static void undoContainment(ItemStack container, PlayerEntity player) {
+        PlayerInventory playerInventory = player.inventory;
+        if (ItemUtil.isInventoryFull(playerInventory.mainInventory)) {
+            return;
+        }
+
+        NonNullList<ItemStack> containerItems = NbtUtil.getItems(container);
+        for(int i = containerItems.size() - 1; i >= 0; i--) {
+            // after removing the stack from the util list, persist the changes.
+            ItemStack takenStack = ItemStackHelper.getAndRemove(containerItems, i);
+            CompoundNBT tag = container.getTag();
+            ItemStackHelper.saveAllItems(tag, containerItems);
+            container.setTag(tag);
+            if (takenStack == ItemStack.EMPTY) {
+                continue;
+            }
+            playerInventory.addItemStackToInventory(takenStack);
+            if (ItemUtil.isInventoryFull(playerInventory.mainInventory)) {
+                return;
+            }
+        }
+    }
+
+    public static void doContainment(ItemStack container, PlayerEntity player, ArrayList<Item> containerConsumesThese, ArrayList<Item> itemExceptions) {
+        PlayerInventory playerInventory = player.inventory;
+
+        for(Item itemToConsume : containerConsumesThese) {
+            // make sure we respect distinct nbt tags, we do this by
+            // getting all items in the player inventory with distint NBTs
+            NonNullList<ItemStack> distinctStacks = ItemUtil.getAllDistinctlyTaggedStacks(playerInventory, container, itemToConsume);
+
+            for(ItemStack distinctStack : distinctStacks) {
+                int amountWeWouldLike = itemExceptions.contains(distinctStack.getItem()) ? 0 : distinctStack.getMaxStackSize();
+                while (ItemUtil.getItemCountInInventory(playerInventory, distinctStack) > amountWeWouldLike) {
+                    ItemStack stackFound = ItemUtil.getAndRemoveOneStack(playerInventory.mainInventory, distinctStack);
+                    NbtUtil.addItemStackToContainerItem(container, stackFound);
+                }
+
+                NonNullList<ItemStack> containedItems = NbtUtil.getItems(container);
+
+                // item exceptions are items we don't want back. this is used by the potion belt
+                // on empty bottles
+                if (amountWeWouldLike <= 0) {
+                    continue;
+                }
+
+                amountWeWouldLike = distinctStack.getMaxStackSize() - ItemUtil.getItemCountInInventory(playerInventory, distinctStack);
+
+                // the opposite should occur for each distinct stack that isn't full when the container item has items in it
+                ItemStack siphonedStack = ItemUtil.siphonStacks(distinctStack, amountWeWouldLike, containedItems);
+                if (!playerInventory.addItemStackToInventory(siphonedStack)) {
+                    NbtUtil.addItemStackToContainerItem(container, siphonedStack);
+                }
+
+                // no matter what just happened, persist the Nbt updates.
+                CompoundNBT tag = container.getTag();
+                ItemStackHelper.saveAllItems(tag, containedItems);
+                container.setTag(tag);
+            }
+        }
     }
 }

@@ -39,6 +39,12 @@ public class PotionBelt extends Item {
         setRegistryName(Names.POTION_BELT);
     }
 
+    public static final ArrayList<Item> ITEM_EXCEPTIONS = new ArrayList<>(
+            Arrays.asList(
+                    Items.GLASS_BOTTLE
+            )
+    );
+
     public static final ArrayList<Item> BELT_CONSUMES_THESE = new ArrayList<>(
             Arrays.asList(
                     Items.POTION,
@@ -93,71 +99,9 @@ public class PotionBelt extends Item {
         PlayerEntity player = (PlayerEntity) entityIn;
 
         if (NbtUtil.getIsDisabled(stack)) {
-            undoContainment(stack, player);
+            ItemUtil.undoContainment(stack, player);
         } else {
-            doContainment(stack, player);
+            ItemUtil.doContainment(stack, player, BELT_CONSUMES_THESE, ITEM_EXCEPTIONS);
         }
-    }
-
-    private static void undoContainment(ItemStack beltStack, PlayerEntity player) {
-        PlayerInventory playerInventory = player.inventory;
-
-        NonNullList<ItemStack> beltItems = NbtUtil.getItems(beltStack);
-        for(int i = 0; i < beltItems.size(); i++) {
-            // after removing the stack from the util list, persist the changes.
-            ItemStack takenStack = ItemStackHelper.getAndRemove(beltItems, i);
-            CompoundNBT tag = beltStack.getTag();
-            ItemStackHelper.saveAllItems(tag, beltItems);
-            beltStack.setTag(tag);
-
-            if (takenStack == ItemStack.EMPTY) {
-                continue;
-            }
-            if (!playerInventory.addItemStackToInventory(takenStack)) {
-                NbtUtil.addItemStackToContainerItem(beltStack, takenStack);
-                break;
-            }
-        }
-    }
-
-    private static void doContainment(ItemStack container, PlayerEntity player) {
-        PlayerInventory playerInventory = player.inventory;
-
-        for(Item itemToConsume : BELT_CONSUMES_THESE) {
-            // make sure we respect distinct nbt tags, we do this by
-            // getting all items in the player inventory with distint NBTs
-            NonNullList<ItemStack> distinctStacks = ItemUtil.getAllDistinctlyTaggedStacks(playerInventory, container, itemToConsume);
-
-            for(ItemStack distinctStack : distinctStacks) {
-                // this item has a special consideration for glass bottles
-                // we don't want a glass bottle left in every potion consumed slot.
-                // this causes the belt to consume all bottles, and leave none.
-                int howManyDoWeWant = getHowManyWeWant(distinctStack);
-                while (ItemUtil.getItemCountInInventory(playerInventory, distinctStack) > howManyDoWeWant) {
-                    ItemStack stackFound = ItemUtil.getAndRemoveOneStack(playerInventory.mainInventory, distinctStack);
-                    NbtUtil.addItemStackToContainerItem(container, stackFound);
-                }
-
-                NonNullList<ItemStack> containedItems = NbtUtil.getItems(container);
-                int amountWeWouldLike = howManyDoWeWant - ItemUtil.getItemCountInInventory(playerInventory, distinctStack);
-                if (amountWeWouldLike <= 0) {
-                    continue;
-                }
-                // the opposite should occur for each distinct stack that isn't full when the container item has items in it
-                ItemStack siphonedStack = ItemUtil.siphonStacks(distinctStack, amountWeWouldLike, containedItems);
-                if (!playerInventory.addItemStackToInventory(siphonedStack)) {
-                    NbtUtil.addItemStackToContainerItem(container, siphonedStack);
-                }
-
-                // no matter what just happened, persist the Nbt updates.
-                CompoundNBT tag = container.getTag();
-                ItemStackHelper.saveAllItems(tag, containedItems);
-                container.setTag(tag);
-            }
-        }
-    }
-
-    private static int getHowManyWeWant(ItemStack distinctStack) {
-        return distinctStack.getItem().equals(Items.GLASS_BOTTLE) ? 0 : distinctStack.getMaxStackSize();
     }
 }
