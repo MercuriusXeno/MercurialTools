@@ -81,7 +81,7 @@ public class ItemUtil {
     /*
      * From a list of items, find a particular itemstack (including NBT) and remove the last ordinal one you can find
      */
-    public static ItemStack getAndRemoveOneStack(NonNullList<ItemStack> inventory, ItemStack itemToPull) {
+    public static ItemStack getAndRemoveOneStack(NonNullList<ItemStack> inventory, ItemStack itemToPull, int amountToGrab) {
         // read backwards because it makes for a cleaner experience.
         for(int i = inventory.size() - 1; i >= 0; i--) {
             ItemStack stack = inventory.get(i);
@@ -92,7 +92,14 @@ public class ItemUtil {
                 continue;
             }
             if (ItemStack.areItemStackTagsEqual(stack, itemToPull)) {
-                return ItemStackHelper.getAndRemove(inventory, i);
+                if (stack.getCount() <= amountToGrab) {
+                    return ItemStackHelper.getAndRemove(inventory, i);
+                } else {
+                    ItemStack result = stack.copy();
+                    result.setCount(amountToGrab);
+                    stack.setCount(stack.getCount() - amountToGrab);
+                    return result;
+                }
             }
         }
         return ItemStack.EMPTY;
@@ -155,7 +162,7 @@ public class ItemUtil {
      */
     public static ItemStack siphonStacks(ItemStack distinctStack, int amountWeWouldLike, NonNullList<ItemStack> containedItems) {
         ItemStack result = ItemStack.EMPTY;
-        for (int i = containedItems.size() - 1; i >= 0; i--) {
+        for (int i = containedItems.size() - 1; i >= 0 && amountWeWouldLike > 0; i--) {
             ItemStack containedItem = containedItems.get(i);
             if (containedItem == ItemStack.EMPTY) {
                 continue;
@@ -169,6 +176,7 @@ public class ItemUtil {
             }
             if (getItemCount(distinctStack, containedItems) >= amountWeWouldLike) {
                 result = ItemStackHelper.getAndSplit(containedItems, i, amountWeWouldLike);
+                amountWeWouldLike -= result.getCount();
             }
         }
 
@@ -201,7 +209,9 @@ public class ItemUtil {
             if (takenStack == ItemStack.EMPTY) {
                 continue;
             }
-            playerInventory.addItemStackToInventory(takenStack);
+            if (!playerInventory.addItemStackToInventory(takenStack)) {
+                NbtUtil.addItemStackToContainerItem(container, takenStack);
+            };
             if (ItemUtil.isInventoryFull(playerInventory.mainInventory)) {
                 return;
             }
@@ -218,8 +228,10 @@ public class ItemUtil {
 
             for(ItemStack distinctStack : distinctStacks) {
                 int amountWeWouldLike = itemExceptions.contains(distinctStack.getItem()) ? 0 : distinctStack.getMaxStackSize();
-                while (ItemUtil.getItemCountInInventory(playerInventory, distinctStack) > amountWeWouldLike) {
-                    ItemStack stackFound = ItemUtil.getAndRemoveOneStack(playerInventory.mainInventory, distinctStack);
+                int amountWeShouldConsume = ItemUtil.getItemCountInInventory(playerInventory, distinctStack) - amountWeWouldLike;
+                while (amountWeShouldConsume > 0) {
+                    ItemStack stackFound = ItemUtil.getAndRemoveOneStack(playerInventory.mainInventory, distinctStack, amountWeShouldConsume);
+                    amountWeShouldConsume -= stackFound.getCount();
                     NbtUtil.addItemStackToContainerItem(container, stackFound);
                 }
 
@@ -232,6 +244,10 @@ public class ItemUtil {
                 }
 
                 amountWeWouldLike = distinctStack.getMaxStackSize() - ItemUtil.getItemCountInInventory(playerInventory, distinctStack);
+                // if we have more than we need, just stop.
+                if (amountWeWouldLike <= 0) {
+                    continue;
+                }
 
                 // the opposite should occur for each distinct stack that isn't full when the container item has items in it
                 ItemStack siphonedStack = ItemUtil.siphonStacks(distinctStack, amountWeWouldLike, containedItems);

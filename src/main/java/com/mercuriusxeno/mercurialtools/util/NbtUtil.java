@@ -81,13 +81,18 @@ public class NbtUtil {
         NonNullList<ItemStack> containedStacks = NonNullList.withSize(listSize + 1, ItemStack.EMPTY);
         ItemStackHelper.loadAllItems(tag, containedStacks);
 
-        int itemsInStack = depositedItem.getCount();
-        for(int stackIndex = 0; stackIndex < containedStacks.size(); stackIndex++) {
+        int itemsLeftInStack = depositedItem.getCount();
+        for(int stackIndex = 0; stackIndex < containedStacks.size() && itemsLeftInStack > 0; stackIndex++) {
             ItemStack stack = containedStacks.get(stackIndex);
-            if (stack.isItemEqual(depositedItem)) {
+            if (stack.isItemEqual(depositedItem) && ItemStack.areItemStackTagsEqual(stack, depositedItem)) {
+                // can't add items to a full stack
+                if (stack.getCount() == stack.getMaxStackSize()) {
+                    continue;
+                }
                 int actuallyDeposited = stack.getMaxStackSize() - stack.getCount();
-                int newStackSize = Math.min(stack.getCount() + itemsInStack, stack.getMaxStackSize());
-                itemsInStack -= actuallyDeposited;
+                int newStackSize = Math.min(stack.getCount() + itemsLeftInStack, stack.getMaxStackSize());
+                itemsLeftInStack -= actuallyDeposited;
+                depositedItem.setCount(itemsLeftInStack);
                 stack.setCount(newStackSize);
             } else if(stack == ItemStack.EMPTY) {
                 containedStacks.set(stackIndex, depositedItem);

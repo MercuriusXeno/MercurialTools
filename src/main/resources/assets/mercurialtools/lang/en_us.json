@@ -63,7 +63,7 @@
   "mercurialtools.category_items_description": "Mostly inventory utilities, but a couple of things that are special.",
   "item.mercurialtools.crystal_compass_description": "A compass that only shows the way to crystals. What a piece of junk.",
   "item.mercurialtools.crystal_compass_description_extra": "Shows lapis, emerald, diamond, nether quartz and glowstone.",
-  "item.mercurialtools.cubing_talisman_description": "A talisman that turns things that can be cubed... into cubes.",
+  "item.mercurialtools.cubing_talisman_description": "A talisman that turns things that can be cubed... into cubes. Tries to keep as many single items as will fit in a stack, but cubes the rest.",
   "item.mercurialtools.cubing_talisman_description_extra": "Deactivate by right-clicking (turns red). Stops cubing.",
   "item.mercurialtools.mercurial_blend_description": "Useless on its own, but used to make other things.",
   "item.mercurialtools.mercurial_blend_description_extra": "Ugh, and it takes slime balls.",

@@ -69,8 +69,8 @@ public class CubingTalisman extends Item {
 
             // player has enough of the item in their inventory to justify cubing
             // scan through the list of objects which can be "cubed", and target them if their totals are over 64.
-            if (itemTotal > 64 && singletonItemTotal >= 9) {
-                while (singletonItemTotal >= 9) {
+            if (itemTotal > 64 && singletonItemTotal >= 63) {
+                while (singletonItemTotal >= 63) {
                     replaceNineSingletonsWithOneBlock(cubingPair, playerInventory);
                     singletonItemTotal -= 9;
                 }
