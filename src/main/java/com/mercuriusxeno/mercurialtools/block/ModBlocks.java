@@ -1,5 +1,8 @@
 package com.mercuriusxeno.mercurialtools.block;
 
+import com.mercuriusxeno.mercurialtools.container.MercurialGrindstoneContainer;
+import net.minecraft.block.Block;
+import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.registries.ObjectHolder;
 
@@ -54,6 +57,12 @@ public class ModBlocks {
 
     @ObjectHolder("mercurialtools:interloper")
     public static TileEntityType<InterloperTile> INTERLOPER_TILE;
+
+    @ObjectHolder("mercurialtools:mercurial_grindstone")
+    public static MercurialGrindstone MERCURIAL_GRINDSTONE;
+
+    @ObjectHolder("mercurialtools:mercurial_grindstone")
+    public static ContainerType<MercurialGrindstoneContainer> MERCURIAL_GRINDSTONE_CONTAINER;
 
     @ObjectHolder("mercurialtools:spawner_template")
     public static SpawnerTemplate SPAWNER_TEMPLATE;

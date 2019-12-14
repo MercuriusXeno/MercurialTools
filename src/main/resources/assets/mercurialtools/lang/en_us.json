@@ -10,6 +10,7 @@
   "block.mercurialtools.expanding_hopper": "Expanding Hopper",
   "block.mercurialtools.growth_pulser": "Growth Pulser",
   "block.mercurialtools.interloper": "Interloper",
+  "block.mercurialtools.mercurial_grindstone": "Mercurial Grindstone",
   "block.mercurialtools.spawner_template": "Lifeless Spawner",
 
   "_comment": "Items",
@@ -27,6 +28,7 @@
 
   "_comment": "Container",
   "container.enderVacuum":  "Ender Vacuum",
+  "mercurial_grindstone": "Mercurial Grindstone",
 
   "_comment": "Patchouli",
   "mercurialtools.expanding_recipes": "Expanding Recipes",
@@ -53,6 +55,8 @@
   "block.mercurialtools.growth_pulser_description_extra": "This effect will not stack!",
   "block.mercurialtools.interloper_description": "An observer made angry by dark magic. Unpowered, reduces living entities to 1 health. Powered, kills them outright.",
   "block.mercurialtools.interloper_description_extra": "The 9x9x5 death field is projected forward, centered on the block face",
+  "block.mercurialtools.mercurial_grindstone_description":  "A grindstone enhanced with high-quality materials and magic binding properties. With this grindstone, you can perform two key functions: $(br2)$(li)Firstly, any enchanted item can have its enchantments sequentially stripped away with books.$(li)Secondly, any repairable item can have its repair cost reduced substantially by spending Mercurial Blend.",
+  "block.mercurialtools.mercurial_grindstone_description_extra":  "There is no limit to the number of times repair costs can be lowered. Keep your favorite items... favorite. Books and Mercurial Blend go in the bottom slot, target item on top!",
   "block.mercurialtools.spawner_template_description": "A lifeless spawner, awaiting a soul to materialize eternally.",
   "block.mercurialtools.spawner_template_description_extra": "Right click with a filled Soul Tome to create a spawner.",
   "mercurialtools.category_items": "Mercurial Items",

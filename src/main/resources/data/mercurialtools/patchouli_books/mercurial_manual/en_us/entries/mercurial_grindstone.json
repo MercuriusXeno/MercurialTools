@@ -1,0 +1,16 @@
+{
+  "name": "block.mercurialtools.mercurial_grindstone",
+  "category": "blocks",
+  "icon": "mercurialtools:mercurial_grindstone",
+  "pages":[
+    {
+      "type": "text",
+      "text": "block.mercurialtools.mercurial_grindstone_description"
+    },
+    {
+      "type": "crafting",
+      "recipe": "mercurialtools:mercurial_grindstone",
+      "text": "block.mercurialtools.mercurial_grindstone_description_extra"
+    }
+  ]
+}

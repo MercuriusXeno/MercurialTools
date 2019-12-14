@@ -398,7 +398,7 @@ public class EnderVacuumTile extends LockableLootTileEntity implements ISidedInv
 
     @Override
     protected ITextComponent getDefaultName() {
-        return new TranslationTextComponent("container.enderVacuum");
+        return new TranslationTextComponent(Names.ENDER_VACUUM_CONTAINER);
     }
 
     public void read(CompoundNBT compound) {

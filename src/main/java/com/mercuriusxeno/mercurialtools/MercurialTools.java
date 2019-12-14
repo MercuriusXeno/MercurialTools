@@ -1,6 +1,7 @@
 package com.mercuriusxeno.mercurialtools;
 
 import com.mercuriusxeno.mercurialtools.block.*;
+import com.mercuriusxeno.mercurialtools.container.MercurialGrindstoneContainer;
 import com.mercuriusxeno.mercurialtools.item.*;
 import com.mercuriusxeno.mercurialtools.reference.Names;
 import com.mercuriusxeno.mercurialtools.setup.ClientProxy;
@@ -10,10 +11,16 @@ import com.mercuriusxeno.mercurialtools.setup.ServerProxy;
 import com.mercuriusxeno.mercurialtools.util.ModState;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.IWorldPosCallable;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IWorld;
+import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.extensions.IForgeContainerType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
@@ -28,6 +35,8 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Optional;
+import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -89,7 +98,16 @@ public class MercurialTools
             event.getRegistry().register(new ExpandingHopper());
             event.getRegistry().register(new GrowthPulser());
             event.getRegistry().register(new Interloper());
+            event.getRegistry().register(new MercurialGrindstone());
             event.getRegistry().register(new SpawnerTemplate());
+        }
+
+        @SubscribeEvent
+        public static void onContainersRegistry(final RegistryEvent.Register<ContainerType<?>> event) {
+            event.getRegistry().register(IForgeContainerType.create(
+                    (windowId, inv, data) -> {
+                        return new MercurialGrindstoneContainer(windowId, inv);
+                    }).setRegistryName(Names.MERCURIAL_GRINDSTONE));
         }
 
         @SubscribeEvent
@@ -107,6 +125,7 @@ public class MercurialTools
             event.getRegistry().register(new BlockItem(ModBlocks.EXPANDING_HOPPER, properties).setRegistryName(Names.EXPANDING_HOPPER));
             event.getRegistry().register(new BlockItem(ModBlocks.GROWTH_PULSER, properties).setRegistryName(Names.GROWTH_PULSER));
             event.getRegistry().register(new BlockItem(ModBlocks.INTERLOPER, properties).setRegistryName(Names.INTERLOPER));
+            event.getRegistry().register(new BlockItem(ModBlocks.MERCURIAL_GRINDSTONE, properties).setRegistryName(Names.MERCURIAL_GRINDSTONE));
             event.getRegistry().register(new BlockItem(ModBlocks.SPAWNER_TEMPLATE, properties).setRegistryName(Names.SPAWNER_TEMPLATE));
 
             // plain ol' items

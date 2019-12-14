@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "face=floor,facing=east":  { "model": "mercurialtools:block/mercurial_grindstone", "y": 90 },
+    "face=floor,facing=west":  { "model": "mercurialtools:block/mercurial_grindstone", "y": 270 },
+    "face=floor,facing=south": { "model": "mercurialtools:block/mercurial_grindstone", "y": 180 },
+    "face=floor,facing=north": { "model": "mercurialtools:block/mercurial_grindstone" },
+    "face=wall,facing=east":  { "model": "mercurialtools:block/mercurial_grindstone", "x": 90, "y": 90 },
+    "face=wall,facing=west":  { "model": "mercurialtools:block/mercurial_grindstone", "x": 90, "y": 270 },
+    "face=wall,facing=south": { "model": "mercurialtools:block/mercurial_grindstone", "x": 90, "y": 180 },
+    "face=wall,facing=north": { "model": "mercurialtools:block/mercurial_grindstone", "x": 90 },
+    "face=ceiling,facing=east":  { "model": "mercurialtools:block/mercurial_grindstone", "x": 180, "y": 270 },
+    "face=ceiling,facing=west":  { "model": "mercurialtools:block/mercurial_grindstone", "x": 180, "y": 90 },
+    "face=ceiling,facing=south": { "model": "mercurialtools:block/mercurial_grindstone", "x": 180 },
+    "face=ceiling,facing=north": { "model": "mercurialtools:block/mercurial_grindstone", "x": 180, "y": 180 }
+  }
+}

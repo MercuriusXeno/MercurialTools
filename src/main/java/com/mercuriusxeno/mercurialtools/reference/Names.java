@@ -1,5 +1,7 @@
 package com.mercuriusxeno.mercurialtools.reference;
 
+import net.minecraft.util.text.TranslationTextComponent;
+
 public class Names {
     // common
     public static final String MOD_ID = "mercurialtools";
@@ -15,7 +17,11 @@ public class Names {
     public static final String EXPANDING_HOPPER = "expanding_hopper";
     public static final String GROWTH_PULSER = "growth_pulser";
     public static final String INTERLOPER = "interloper";
+    public static final String MERCURIAL_GRINDSTONE = "mercurial_grindstone";
     public static final String SPAWNER_TEMPLATE = "spawner_template";
+
+    // containers
+    public static final String ENDER_VACUUM_CONTAINER = "container.enderVacuum";
 
     // items
     public static final String MERCURIAL_BLEND = "mercurial_blend";
@@ -38,7 +44,6 @@ public class Names {
      * The case on this matters to the json models. Beware changing it.
      */
     public static final String IS_DISABLED = "is_disabled";
-    public static final String DAMPENING_LEVEL = "dampening";
 
     /*
      * Please don't change the case of these.

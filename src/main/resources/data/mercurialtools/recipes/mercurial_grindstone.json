@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "bdb",
+    "dgd",
+    "ooo"
+  ],
+  "key": {
+    "b": {
+      "item": "mercurialtools:mercurial_blend"
+    },
+    "d": {
+      "item": "minecraft:diamond"
+    },
+    "g": {
+      "item": "minecraft:grindstone"
+    },
+    "o": {
+      "item": "minecraft:obsidian"
+    }
+  },
+  "result": {
+    "item": "mercurialtools:mercurial_grindstone"
+  }
+}
