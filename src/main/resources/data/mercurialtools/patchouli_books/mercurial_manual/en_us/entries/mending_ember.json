@@ -1,0 +1,16 @@
+{
+  "name": "item.mercurialtools.mending_ember",
+  "category": "items",
+  "icon": "mercurialtools:mending_ember",
+  "pages":[
+    {
+      "type": "text",
+      "text": "item.mercurialtools.mending_ember_description"
+    },
+    {
+      "type": "crafting",
+      "recipe": "mercurialtools:mending_ember",
+      "text": "item.mercurialtools.mending_ember_description_extra"
+    }
+  ]
+}

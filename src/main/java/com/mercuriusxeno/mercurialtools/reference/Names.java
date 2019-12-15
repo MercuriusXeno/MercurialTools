@@ -31,6 +31,7 @@ public class Names {
     public static final String SOUL_TOME = "soul_tome";
     public static final String CRYSTAL_COMPASS = "crystal_compass";
     public static final String CUBING_TALISMAN = "cubing_talisman";
+    public static final String MENDING_EMBER = "mending_ember";
 
     // item features/NBT
     public static final String ENTITY_TRANSLATION_KEY = "entity_type";

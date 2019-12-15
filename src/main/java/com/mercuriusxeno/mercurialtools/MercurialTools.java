@@ -136,6 +136,7 @@ public class MercurialTools
             event.getRegistry().register(new PotionBelt());
             event.getRegistry().register(new Quiver());
             event.getRegistry().register(new SoulTome());
+            event.getRegistry().register(new MendingEmber());
         }
 
         @SubscribeEvent

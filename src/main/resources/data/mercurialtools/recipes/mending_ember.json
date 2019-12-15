@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "eme",
+    "cbc",
+    "eme"
+  ],
+  "key": {
+    "b": {
+      "item": "minecraft:blaze_powder"
+    },
+    "c": {
+      "item": "minecraft:magma_cream"
+    },
+    "m": {
+      "item": "minecraft:magma_block"
+    },
+    "e": {
+      "item": "minecraft:emerald"
+    }
+  },
+  "result": {
+    "item": "mercurialtools:mending_ember"
+  }
+}
