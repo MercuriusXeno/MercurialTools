@@ -1,6 +1,7 @@
 package com.mercuriusxeno.mercurialtools;
 
 import com.mercuriusxeno.mercurialtools.block.*;
+import com.mercuriusxeno.mercurialtools.container.FrugalAnvilContainer;
 import com.mercuriusxeno.mercurialtools.container.MercurialGrindstoneContainer;
 import com.mercuriusxeno.mercurialtools.item.*;
 import com.mercuriusxeno.mercurialtools.reference.Names;
@@ -96,6 +97,7 @@ public class MercurialTools
             event.getRegistry().register(new EnderVacuum());
             event.getRegistry().register(new EnticingPrism());
             event.getRegistry().register(new ExpandingHopper());
+            event.getRegistry().register(new FrugalAnvil());
             event.getRegistry().register(new GrowthPulser());
             event.getRegistry().register(new Interloper());
             event.getRegistry().register(new MercurialGrindstone());
@@ -108,6 +110,10 @@ public class MercurialTools
                     (windowId, inv, data) -> {
                         return new MercurialGrindstoneContainer(windowId, inv);
                     }).setRegistryName(Names.MERCURIAL_GRINDSTONE));
+            event.getRegistry().register(IForgeContainerType.create(
+                    (windowId, inv, data) -> {
+                        return new FrugalAnvilContainer(windowId, inv);
+                    }).setRegistryName(Names.FRUGAL_ANVIL));
         }
 
         @SubscribeEvent
@@ -123,6 +129,7 @@ public class MercurialTools
             event.getRegistry().register(new BlockItem(ModBlocks.ENDER_VACUUM, properties).setRegistryName(Names.ENDER_VACUUM));
             event.getRegistry().register(new BlockItem(ModBlocks.ENTICING_PRISM, properties).setRegistryName(Names.ENTICING_PRISM));
             event.getRegistry().register(new BlockItem(ModBlocks.EXPANDING_HOPPER, properties).setRegistryName(Names.EXPANDING_HOPPER));
+            event.getRegistry().register(new BlockItem(ModBlocks.FRUGAL_ANVIL, properties).setRegistryName(Names.FRUGAL_ANVIL));
             event.getRegistry().register(new BlockItem(ModBlocks.GROWTH_PULSER, properties).setRegistryName(Names.GROWTH_PULSER));
             event.getRegistry().register(new BlockItem(ModBlocks.INTERLOPER, properties).setRegistryName(Names.INTERLOPER));
             event.getRegistry().register(new BlockItem(ModBlocks.MERCURIAL_GRINDSTONE, properties).setRegistryName(Names.MERCURIAL_GRINDSTONE));
@@ -131,12 +138,13 @@ public class MercurialTools
             // plain ol' items
             event.getRegistry().register(new CrystalCompass());
             event.getRegistry().register(new CubingTalisman());
+            event.getRegistry().register(new EnchantingStar());
+            event.getRegistry().register(new MendingEmber());
             event.getRegistry().register(new MercurialBlend());
             event.getRegistry().register(new ModeratingGeode());
             event.getRegistry().register(new PotionBelt());
             event.getRegistry().register(new Quiver());
             event.getRegistry().register(new SoulTome());
-            event.getRegistry().register(new MendingEmber());
         }
 
         @SubscribeEvent

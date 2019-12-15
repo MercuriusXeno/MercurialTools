@@ -1,0 +1,16 @@
+{
+  "name": "block.mercurialtools.frugal_anvil",
+  "category": "blocks",
+  "icon": "mercurialtools:frugal_anvil",
+  "pages":[
+    {
+      "type": "text",
+      "text": "block.mercurialtools.frugal_anvil_description"
+    },
+    {
+      "type": "crafting",
+      "recipe": "mercurialtools:frugal_anvil",
+      "text": "block.mercurialtools.frugal_anvil_description_extra"
+    }
+  ]
+}

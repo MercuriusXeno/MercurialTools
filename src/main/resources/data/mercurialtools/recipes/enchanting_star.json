@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ete",
+    "tst",
+    "ete"
+  ],
+  "key": {
+    "e": {
+      "item": "minecraft:emerald_block"
+    },
+    "t": {
+      "item": "mercurialtools:soul_tome"
+    },
+    "s": {
+      "item": "minecraft:nether_star"
+    }
+  },
+  "result": {
+    "item": "mercurialtools:enchanting_star"
+  }
+}

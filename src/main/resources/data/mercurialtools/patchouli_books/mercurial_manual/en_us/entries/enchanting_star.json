@@ -1,0 +1,16 @@
+{
+  "name": "item.mercurialtools.enchanting_star",
+  "category": "items",
+  "icon": "mercurialtools:enchanting_star",
+  "pages":[
+    {
+      "type": "text",
+      "text": "item.mercurialtools.enchanting_star_description"
+    },
+    {
+      "type": "crafting",
+      "recipe": "mercurialtools:enchanting_star",
+      "text": "item.mercurialtools.enchanting_star_description_extra"
+    }
+  ]
+}

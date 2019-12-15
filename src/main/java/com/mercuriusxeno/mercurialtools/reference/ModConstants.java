@@ -42,4 +42,5 @@ public class ModConstants {
     public static final AxisAlignedBB EMPTY_BOUNDING_BOX = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D);
 
     public static final long GROWTH_PULSER_CYCLE_TIME = 200;
+    public static final int ENCHANTING_STAR_BASE_TICKS = 80;
 }

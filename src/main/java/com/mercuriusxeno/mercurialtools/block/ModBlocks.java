@@ -1,5 +1,6 @@
 package com.mercuriusxeno.mercurialtools.block;
 
+import com.mercuriusxeno.mercurialtools.container.FrugalAnvilContainer;
 import com.mercuriusxeno.mercurialtools.container.MercurialGrindstoneContainer;
 import net.minecraft.block.Block;
 import net.minecraft.inventory.container.ContainerType;
@@ -45,6 +46,12 @@ public class ModBlocks {
 
     @ObjectHolder("mercurialtools:expanding_hopper")
     public static TileEntityType<ExpandingHopperTile> EXPANDING_HOPPER_TILE;
+
+    @ObjectHolder("mercurialtools:frugal_anvil")
+    public static FrugalAnvil FRUGAL_ANVIL;
+
+    @ObjectHolder("mercurialtools:frugal_anvil")
+    public static ContainerType<FrugalAnvilContainer> FRUGAL_ANVIL_CONTAINER;
 
     @ObjectHolder("mercurialtools:growth_pulser")
     public static GrowthPulser GROWTH_PULSER;

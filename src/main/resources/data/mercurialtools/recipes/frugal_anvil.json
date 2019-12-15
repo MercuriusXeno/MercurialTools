@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ede",
+    "sas",
+    "ede"
+  ],
+  "key": {
+    "e": {
+      "item": "minecraft:emerald_block"
+    },
+    "d": {
+      "item": "minecraft:diamond_block"
+    },
+    "s": {
+      "item": "mercurialtools:soul_tome"
+    },
+    "a": {
+      "item": "minecraft:anvil"
+    }
+  },
+  "result": {
+    "item": "mercurialtools:frugal_anvil"
+  }
+}

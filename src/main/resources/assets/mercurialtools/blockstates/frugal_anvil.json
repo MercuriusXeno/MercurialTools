@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=south": { "model": "mercurialtools:block/frugal_anvil" },
+    "facing=west": { "model": "mercurialtools:block/frugal_anvil", "y": 90 },
+    "facing=north": { "model": "mercurialtools:block/frugal_anvil", "y": 180 },
+    "facing=east": { "model": "mercurialtools:block/frugal_anvil", "y": 270 }
+  }
+}
